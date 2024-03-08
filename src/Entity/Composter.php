@@ -16,49 +16,36 @@ class Composter
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?float $latitude = null;
-
-    #[ORM\Column]
     private ?float $longitude = null;
 
-    #[ORM\ManyToOne(inversedBy: 'composters')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?ownerType $ownerType = null;
+    #[ORM\Column]
+    private ?float $latitude = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $contact = null;
 
     #[ORM\ManyToOne(inversedBy: 'composters')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?accessType $accessType = null;
+    private ?OwnerType $OwnerType = null;
 
     #[ORM\ManyToOne(inversedBy: 'composters')]
-    private ?fillRateType $fillRateType = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private ?AccessType $AccessType = null;
 
-    #[ORM\OneToMany(targetEntity: ComposterDay::class, mappedBy: 'composter', orphanRemoval: true)]
-    private Collection $composterDays;
+    #[ORM\ManyToOne(inversedBy: 'composters')]
+    private ?FillRateType $FillRate = null;
 
-    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'composter', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'Composter')]
     private Collection $tickets;
 
     public function __construct()
     {
-        $this->composterDays = new ArrayCollection();
         $this->tickets = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getLatitude(): ?float
-    {
-        return $this->latitude;
-    }
-
-    public function setLatitude(float $latitude): static
-    {
-        $this->latitude = $latitude;
-
-        return $this;
     }
 
     public function getLongitude(): ?float
@@ -73,68 +60,62 @@ class Composter
         return $this;
     }
 
-    public function getOwnerType(): ?ownerType
+    public function getLatitude(): ?float
     {
-        return $this->ownerType;
+        return $this->latitude;
     }
 
-    public function setOwnerType(?ownerType $ownerType): static
+    public function setLatitude(float $latitude): static
     {
-        $this->ownerType = $ownerType;
+        $this->latitude = $latitude;
 
         return $this;
     }
 
-    public function getAccessType(): ?accessType
+    public function getContact(): ?string
     {
-        return $this->accessType;
+        return $this->contact;
     }
 
-    public function setAccessType(?accessType $accessType): static
+    public function setContact(string $contact): static
     {
-        $this->accessType = $accessType;
+        $this->contact = $contact;
 
         return $this;
     }
 
-    public function getFillRateType(): ?fillRateType
+    public function getOwnerType(): ?OwnerType
     {
-        return $this->fillRateType;
+        return $this->OwnerType;
     }
 
-    public function setFillRateType(?fillRateType $fillRateType): static
+    public function setOwnerType(?OwnerType $OwnerType): static
     {
-        $this->fillRateType = $fillRateType;
+        $this->OwnerType = $OwnerType;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, ComposterDay>
-     */
-    public function getComposterDays(): Collection
+    public function getAccessType(): ?AccessType
     {
-        return $this->composterDays;
+        return $this->AccessType;
     }
 
-    public function addComposterDay(ComposterDay $composterDay): static
+    public function setAccessType(?AccessType $AccessType): static
     {
-        if (!$this->composterDays->contains($composterDay)) {
-            $this->composterDays->add($composterDay);
-            $composterDay->setComposter($this);
-        }
+        $this->AccessType = $AccessType;
 
         return $this;
     }
 
-    public function removeComposterDay(ComposterDay $composterDay): static
+    public function getFillRate(): ?FillRateType
     {
-        if ($this->composterDays->removeElement($composterDay)) {
-            // set the owning side to null (unless already changed)
-            if ($composterDay->getComposter() === $this) {
-                $composterDay->setComposter(null);
-            }
-        }
+        return $this->FillRate;
+    }
+
+    public function setFillRate(?FillRateType $FillRate): static
+    {
+        $this->FillRate = $FillRate;
 
         return $this;
     }

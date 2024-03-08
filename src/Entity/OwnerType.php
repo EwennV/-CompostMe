@@ -15,10 +15,10 @@ class OwnerType
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 124)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(targetEntity: Composter::class, mappedBy: 'ownerType')]
+    #[ORM\OneToMany(targetEntity: Composter::class, mappedBy: 'OwnerType')]
     private Collection $composters;
 
     public function __construct()

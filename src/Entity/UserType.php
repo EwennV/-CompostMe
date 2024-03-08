@@ -18,7 +18,10 @@ class UserType
     #[ORM\Column(length: 50)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'type')]
+    #[ORM\Column]
+    private array $roles = [];
+
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'userType')]
     private Collection $users;
 
     public function __construct()
@@ -43,6 +46,18 @@ class UserType
         return $this;
     }
 
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
+
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, User>
      */
@@ -55,7 +70,7 @@ class UserType
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
-            $user->setType($this);
+            $user->setUserType($this);
         }
 
         return $this;
@@ -65,8 +80,8 @@ class UserType
     {
         if ($this->users->removeElement($user)) {
             // set the owning side to null (unless already changed)
-            if ($user->getType() === $this) {
-                $user->setType(null);
+            if ($user->getUserType() === $this) {
+                $user->setUserType(null);
             }
         }
 

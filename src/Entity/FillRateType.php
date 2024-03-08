@@ -15,13 +15,16 @@ class FillRateType
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 64)]
+    #[ORM\Column(length: 50)]
     private ?string $name = null;
 
     #[ORM\Column]
     private ?int $pourcentage = null;
 
-    #[ORM\OneToMany(targetEntity: Composter::class, mappedBy: 'fillRateType')]
+    #[ORM\Column(length: 16)]
+    private ?string $color = null;
+
+    #[ORM\OneToMany(targetEntity: Composter::class, mappedBy: 'FillRate')]
     private Collection $composters;
 
     public function __construct()
@@ -58,6 +61,18 @@ class FillRateType
         return $this;
     }
 
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(string $color): static
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Composter>
      */
@@ -70,7 +85,7 @@ class FillRateType
     {
         if (!$this->composters->contains($composter)) {
             $this->composters->add($composter);
-            $composter->setFillRateType($this);
+            $composter->setFillRate($this);
         }
 
         return $this;
@@ -80,8 +95,8 @@ class FillRateType
     {
         if ($this->composters->removeElement($composter)) {
             // set the owning side to null (unless already changed)
-            if ($composter->getFillRateType() === $this) {
-                $composter->setFillRateType(null);
+            if ($composter->getFillRate() === $this) {
+                $composter->setFillRate(null);
             }
         }
 

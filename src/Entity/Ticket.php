@@ -13,35 +13,34 @@ class Ticket
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 256)]
     private ?string $title = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 500)]
     private ?string $description = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updatedAt = null;
+    private ?\DateTimeImmutable $CreatedAt = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $closedAt = null;
+    private ?\DateTimeImmutable $UpdatedAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $ClosedAt = null;
+
+    #[ORM\Column(length: 16)]
+    private ?string $Statut = null;
 
     #[ORM\ManyToOne(inversedBy: 'tickets')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?user $author = null;
+    private ?User $AuthorUser = null;
 
-    #[ORM\ManyToOne(inversedBy: 'traitedTickets')]
-    private ?user $responsable = null;
-
-    #[ORM\ManyToOne(inversedBy: 'tickets')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?composter $composter = null;
+    #[ORM\ManyToOne(inversedBy: 'AttributedTickets')]
+    private ?User $ResponsableUser = null;
 
     #[ORM\ManyToOne(inversedBy: 'tickets')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?ticketStatutType $statut = null;
+    private ?Composter $Composter = null;
 
     public function getId(): ?int
     {
@@ -74,84 +73,84 @@ class Ticket
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->createdAt;
+        return $this->CreatedAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $CreatedAt): static
     {
-        $this->createdAt = $createdAt;
+        $this->CreatedAt = $CreatedAt;
 
         return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        return $this->updatedAt;
+        return $this->UpdatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(?\DateTimeImmutable $UpdatedAt): static
     {
-        $this->updatedAt = $updatedAt;
+        $this->UpdatedAt = $UpdatedAt;
 
         return $this;
     }
 
     public function getClosedAt(): ?\DateTimeImmutable
     {
-        return $this->closedAt;
+        return $this->ClosedAt;
     }
 
-    public function setClosedAt(?\DateTimeImmutable $closedAt): static
+    public function setClosedAt(?\DateTimeImmutable $ClosedAt): static
     {
-        $this->closedAt = $closedAt;
+        $this->ClosedAt = $ClosedAt;
 
         return $this;
     }
 
-    public function getAuthor(): ?user
+    public function getStatut(): ?string
     {
-        return $this->author;
+        return $this->Statut;
     }
 
-    public function setAuthor(?user $author): static
+    public function setStatut(string $Statut): static
     {
-        $this->author = $author;
+        $this->Statut = $Statut;
 
         return $this;
     }
 
-    public function getResponsable(): ?user
+    public function getAuthorUser(): ?User
     {
-        return $this->responsable;
+        return $this->AuthorUser;
     }
 
-    public function setResponsable(?user $responsable): static
+    public function setAuthorUser(?User $AuthorUser): static
     {
-        $this->responsable = $responsable;
+        $this->AuthorUser = $AuthorUser;
 
         return $this;
     }
 
-    public function getComposter(): ?composter
+    public function getResponsableUser(): ?User
     {
-        return $this->composter;
+        return $this->ResponsableUser;
     }
 
-    public function setComposter(?composter $composter): static
+    public function setResponsableUser(?User $ResponsableUser): static
     {
-        $this->composter = $composter;
+        $this->ResponsableUser = $ResponsableUser;
 
         return $this;
     }
 
-    public function getStatut(): ?ticketStatutType
+    public function getComposter(): ?Composter
     {
-        return $this->statut;
+        return $this->Composter;
     }
 
-    public function setStatut(?ticketStatutType $statut): static
+    public function setComposter(?Composter $Composter): static
     {
-        $this->statut = $statut;
+        $this->Composter = $Composter;
 
         return $this;
     }

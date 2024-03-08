@@ -15,10 +15,10 @@ class AccessType
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 12)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(targetEntity: Composter::class, mappedBy: 'accessType')]
+    #[ORM\OneToMany(targetEntity: Composter::class, mappedBy: 'AccessType')]
     private Collection $composters;
 
     public function __construct()

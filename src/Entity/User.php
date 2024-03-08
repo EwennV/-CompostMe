@@ -3,61 +3,107 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 64)]
-    private ?string $firstname = null;
+    #[ORM\Column(length: 180, unique: true)]
+    private ?string $username = null;
 
-    #[ORM\Column(length: 64)]
+    #[ORM\Column]
+    private array $roles = [];
+
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
+    private ?string $password = null;
+
+    #[ORM\Column(length: 255)]
     private ?string $lastname = null;
 
-    #[ORM\Column(length: 64, nullable: true)]
-    private ?string $pseudo = null;
+    #[ORM\Column(length: 255)]
+    private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
-
-    #[ORM\ManyToOne(inversedBy: 'users')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?userType $type = null;
-
-    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'author', orphanRemoval: true)]
-    private Collection $tickets;
-
-    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'responsable')]
-    private Collection $traitedTickets;
-
-    public function __construct()
-    {
-        $this->tickets = new ArrayCollection();
-        $this->traitedTickets = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getFirstname(): ?string
+    public function getUsername(): ?string
     {
-        return $this->firstname;
+        return $this->username;
     }
 
-    public function setFirstname(string $firstname): static
+    public function setUsername(string $username): static
     {
-        $this->firstname = $firstname;
+        $this->username = $username;
 
         return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->username;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): static
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     public function getLastname(): ?string
@@ -72,14 +118,14 @@ class User
         return $this;
     }
 
-    public function getPseudo(): ?string
+    public function getFirstname(): ?string
     {
-        return $this->pseudo;
+        return $this->firstname;
     }
 
-    public function setPseudo(?string $pseudo): static
+    public function setFirstname(string $firstname): static
     {
-        $this->pseudo = $pseudo;
+        $this->firstname = $firstname;
 
         return $this;
     }
@@ -92,78 +138,6 @@ class User
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
-        return $this;
-    }
-
-    public function getType(): ?userType
-    {
-        return $this->type;
-    }
-
-    public function setType(?userType $type): static
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Ticket>
-     */
-    public function getTickets(): Collection
-    {
-        return $this->tickets;
-    }
-
-    public function addTicket(Ticket $ticket): static
-    {
-        if (!$this->tickets->contains($ticket)) {
-            $this->tickets->add($ticket);
-            $ticket->setAuthor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTicket(Ticket $ticket): static
-    {
-        if ($this->tickets->removeElement($ticket)) {
-            // set the owning side to null (unless already changed)
-            if ($ticket->getAuthor() === $this) {
-                $ticket->setAuthor(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Ticket>
-     */
-    public function getTraitedTickets(): Collection
-    {
-        return $this->traitedTickets;
-    }
-
-    public function addTraitedTicket(Ticket $traitedTicket): static
-    {
-        if (!$this->traitedTickets->contains($traitedTicket)) {
-            $this->traitedTickets->add($traitedTicket);
-            $traitedTicket->setResponsable($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTraitedTicket(Ticket $traitedTicket): static
-    {
-        if ($this->traitedTickets->removeElement($traitedTicket)) {
-            // set the owning side to null (unless already changed)
-            if ($traitedTicket->getResponsable() === $this) {
-                $traitedTicket->setResponsable(null);
-            }
-        }
 
         return $this;
     }
