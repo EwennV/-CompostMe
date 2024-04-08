@@ -3,7 +3,7 @@
 Bloc 3 du CESI
 
 ## Table des matières
-- [Documentation de l'API](/DOCUMENTATION_APi.yaml)
+- [Documentation de l'API](/openapi.yaml)
 - [Installation du projet](#installation-du-projet)
 - [Auteurs](#auteurs)
 
