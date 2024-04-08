@@ -2,12 +2,23 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
 use App\Repository\AccessTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AccessTypeRepository::class)]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get(),
+        new Post()
+    ],
+)]
 class AccessType
 {
     #[ORM\Id]
@@ -15,7 +26,7 @@ class AccessType
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 12)]
+    #[ORM\Column(length: 255)]
     private ?string $name = null;
 
     #[ORM\OneToMany(targetEntity: Composter::class, mappedBy: 'AccessType')]
