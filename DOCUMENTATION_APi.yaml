@@ -1,0 +1,883 @@
+openapi: 3.1.0
+info:
+  title: 'Hello API Platform'
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: /
+    description: ''
+paths:
+  /api/access_types:
+    get:
+      operationId: api_access_types_get_collection
+      tags:
+        - AccessType
+      responses:
+        200:
+          description: 'AccessType collection'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/AccessType.jsonld' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:previous': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } }, example: { '@id': string, type: string, 'hydra:first': string, 'hydra:last': string, 'hydra:previous': string, 'hydra:next': string } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: [string, 'null'] }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+      summary: 'Retrieves the collection of AccessType resources.'
+      description: 'Retrieves the collection of AccessType resources.'
+      parameters:
+        -
+          name: page
+          in: query
+          description: 'The collection page number'
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            default: 1
+          style: form
+          explode: false
+          allowReserved: false
+      deprecated: false
+    parameters: []
+  '/api/access_types/{id}':
+    get:
+      operationId: api_access_types_id_get
+      tags:
+        - AccessType
+      responses:
+        200:
+          description: 'AccessType resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/AccessType.jsonld'
+        404:
+          description: 'Resource not found'
+      summary: 'Retrieves a AccessType resource.'
+      description: 'Retrieves a AccessType resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'AccessType identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+    parameters: []
+  /api/composters:
+    get:
+      operationId: api_composters_get_collection
+      tags:
+        - Composter
+      responses:
+        200:
+          description: 'Composter collection'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Composter.jsonld' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:previous': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } }, example: { '@id': string, type: string, 'hydra:first': string, 'hydra:last': string, 'hydra:previous': string, 'hydra:next': string } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: [string, 'null'] }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+      summary: 'Retrieves the collection of Composter resources.'
+      description: 'Retrieves the collection of Composter resources.'
+      parameters:
+        -
+          name: page
+          in: query
+          description: 'The collection page number'
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            default: 1
+          style: form
+          explode: false
+          allowReserved: false
+      deprecated: false
+    post:
+      operationId: api_composters_post
+      tags:
+        - Composter
+      responses:
+        201:
+          description: 'Composter resource created'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Composter.jsonld'
+          links: {  }
+        400:
+          description: 'Invalid input'
+        422:
+          description: 'Unprocessable entity'
+      summary: 'Creates a Composter resource.'
+      description: 'Creates a Composter resource.'
+      parameters: []
+      requestBody:
+        description: 'The new Composter resource'
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Composter.jsonld'
+        required: true
+      deprecated: false
+    parameters: []
+  '/api/composters/{id}':
+    get:
+      operationId: api_composters_id_get
+      tags:
+        - Composter
+      responses:
+        200:
+          description: 'Composter resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Composter.jsonld'
+        404:
+          description: 'Resource not found'
+      summary: 'Retrieves a Composter resource.'
+      description: 'Retrieves a Composter resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Composter identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+    parameters: []
+  /api/fill_rate_types:
+    get:
+      operationId: api_fill_rate_types_get_collection
+      tags:
+        - FillRateType
+      responses:
+        200:
+          description: 'FillRateType collection'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/FillRateType.jsonld' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:previous': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } }, example: { '@id': string, type: string, 'hydra:first': string, 'hydra:last': string, 'hydra:previous': string, 'hydra:next': string } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: [string, 'null'] }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+      summary: 'Retrieves the collection of FillRateType resources.'
+      description: 'Retrieves the collection of FillRateType resources.'
+      parameters:
+        -
+          name: page
+          in: query
+          description: 'The collection page number'
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            default: 1
+          style: form
+          explode: false
+          allowReserved: false
+      deprecated: false
+    parameters: []
+  '/api/fill_rate_types/{id}':
+    get:
+      operationId: api_fill_rate_types_id_get
+      tags:
+        - FillRateType
+      responses:
+        200:
+          description: 'FillRateType resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/FillRateType.jsonld'
+        404:
+          description: 'Resource not found'
+      summary: 'Retrieves a FillRateType resource.'
+      description: 'Retrieves a FillRateType resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'FillRateType identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+    parameters: []
+  /api/opening_dates:
+    get:
+      operationId: api_opening_dates_get_collection
+      tags:
+        - OpeningDate
+      responses:
+        200:
+          description: 'OpeningDate collection'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/OpeningDate.jsonld' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:previous': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } }, example: { '@id': string, type: string, 'hydra:first': string, 'hydra:last': string, 'hydra:previous': string, 'hydra:next': string } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: [string, 'null'] }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+      summary: 'Retrieves the collection of OpeningDate resources.'
+      description: 'Retrieves the collection of OpeningDate resources.'
+      parameters:
+        -
+          name: page
+          in: query
+          description: 'The collection page number'
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            default: 1
+          style: form
+          explode: false
+          allowReserved: false
+      deprecated: false
+    parameters: []
+  '/api/opening_dates/{id}':
+    get:
+      operationId: api_opening_dates_id_get
+      tags:
+        - OpeningDate
+      responses:
+        200:
+          description: 'OpeningDate resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/OpeningDate.jsonld'
+        404:
+          description: 'Resource not found'
+      summary: 'Retrieves a OpeningDate resource.'
+      description: 'Retrieves a OpeningDate resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'OpeningDate identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+    parameters: []
+  /api/owner_types:
+    get:
+      operationId: api_owner_types_get_collection
+      tags:
+        - OwnerType
+      responses:
+        200:
+          description: 'OwnerType collection'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/OwnerType.jsonld' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:previous': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } }, example: { '@id': string, type: string, 'hydra:first': string, 'hydra:last': string, 'hydra:previous': string, 'hydra:next': string } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: [string, 'null'] }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+      summary: 'Retrieves the collection of OwnerType resources.'
+      description: 'Retrieves the collection of OwnerType resources.'
+      parameters:
+        -
+          name: page
+          in: query
+          description: 'The collection page number'
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            default: 1
+          style: form
+          explode: false
+          allowReserved: false
+      deprecated: false
+    parameters: []
+  '/api/owner_types/{id}':
+    get:
+      operationId: api_owner_types_id_get
+      tags:
+        - OwnerType
+      responses:
+        200:
+          description: 'OwnerType resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/OwnerType.jsonld'
+        404:
+          description: 'Resource not found'
+      summary: 'Retrieves a OwnerType resource.'
+      description: 'Retrieves a OwnerType resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'OwnerType identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+    parameters: []
+  /api/tickets:
+    get:
+      operationId: api_tickets_get_collection
+      tags:
+        - Ticket
+      responses:
+        200:
+          description: 'Ticket collection'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Ticket.jsonld' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:previous': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } }, example: { '@id': string, type: string, 'hydra:first': string, 'hydra:last': string, 'hydra:previous': string, 'hydra:next': string } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: [string, 'null'] }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+      summary: 'Retrieves the collection of Ticket resources.'
+      description: 'Retrieves the collection of Ticket resources.'
+      parameters:
+        -
+          name: page
+          in: query
+          description: 'The collection page number'
+          required: false
+          deprecated: false
+          allowEmptyValue: true
+          schema:
+            type: integer
+            default: 1
+          style: form
+          explode: false
+          allowReserved: false
+      deprecated: false
+    parameters: []
+  '/api/tickets/{id}':
+    get:
+      operationId: api_tickets_id_get
+      tags:
+        - Ticket
+      responses:
+        200:
+          description: 'Ticket resource'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Ticket.jsonld'
+        404:
+          description: 'Resource not found'
+      summary: 'Retrieves a Ticket resource.'
+      description: 'Retrieves a Ticket resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Ticket identifier'
+          required: true
+          deprecated: false
+          allowEmptyValue: false
+          schema:
+            type: string
+          style: simple
+          explode: false
+          allowReserved: false
+      deprecated: false
+    parameters: []
+  /auth:
+    post:
+      operationId: login_check_post
+      tags:
+        - 'Login Check'
+      responses:
+        200:
+          description: 'User token created'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token: { readOnly: true, type: string, nullable: false }
+                required:
+                  - token
+      summary: 'Creates a user token.'
+      description: 'Creates a user token.'
+      requestBody:
+        description: 'The login data'
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  nullable: false
+                password:
+                  type: string
+                  nullable: false
+              required:
+                - email
+                - password
+        required: true
+    parameters: []
+components:
+  schemas:
+    AccessType.jsonld:
+      type: object
+      description: ''
+      deprecated: false
+      properties:
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        '@context':
+          readOnly: true
+          oneOf:
+            -
+              type: string
+            -
+              type: object
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  type: string
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+              required:
+                - '@vocab'
+                - hydra
+              additionalProperties: true
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        composters:
+          type: array
+          items:
+            type: string
+            format: iri-reference
+            example: 'https://example.com/'
+    Composter.jsonld:
+      type: object
+      description: ''
+      deprecated: false
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+            -
+              type: string
+            -
+              type: object
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  type: string
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+              required:
+                - '@vocab'
+                - hydra
+              additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          type: integer
+        longitude:
+          type: number
+        latitude:
+          type: number
+        contact:
+          type: string
+        OwnerType:
+          type: string
+          format: iri-reference
+          example: 'https://example.com/'
+        AccessType:
+          type: string
+          format: iri-reference
+          example: 'https://example.com/'
+        FillRate:
+          type:
+            - string
+            - 'null'
+          format: iri-reference
+          example: 'https://example.com/'
+        tickets:
+          type: array
+          items:
+            type: string
+            format: iri-reference
+            example: 'https://example.com/'
+        ownerType:
+          type:
+            - string
+            - 'null'
+          format: iri-reference
+          example: 'https://example.com/'
+        accessType:
+          type:
+            - string
+            - 'null'
+          format: iri-reference
+          example: 'https://example.com/'
+        fillRate:
+          type:
+            - string
+            - 'null'
+          format: iri-reference
+          example: 'https://example.com/'
+    FillRateType.jsonld:
+      type: object
+      description: ''
+      deprecated: false
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+            -
+              type: string
+            -
+              type: object
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  type: string
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+              required:
+                - '@vocab'
+                - hydra
+              additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        pourcentage:
+          type: integer
+        color:
+          type: string
+        composters:
+          type: array
+          items:
+            type: string
+            format: iri-reference
+            example: 'https://example.com/'
+    OpeningDate.jsonld:
+      type: object
+      description: ''
+      deprecated: false
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+            -
+              type: string
+            -
+              type: object
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  type: string
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+              required:
+                - '@vocab'
+                - hydra
+              additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          type: integer
+        day:
+          type: string
+        OpeningTime:
+          type: string
+          format: date-time
+        ClosureTime:
+          type: string
+          format: date-time
+        openingTime:
+          type: string
+          format: date-time
+        closureTime:
+          type: string
+          format: date-time
+    OwnerType.jsonld:
+      type: object
+      description: ''
+      deprecated: false
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+            -
+              type: string
+            -
+              type: object
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  type: string
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+              required:
+                - '@vocab'
+                - hydra
+              additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        composters:
+          type: array
+          items:
+            type: string
+            format: iri-reference
+            example: 'https://example.com/'
+    Ticket.jsonld:
+      type: object
+      description: ''
+      deprecated: false
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+            -
+              type: string
+            -
+              type: object
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  type: string
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+              required:
+                - '@vocab'
+                - hydra
+              additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        CreatedAt:
+          type: string
+          format: date-time
+        UpdatedAt:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        ClosedAt:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        Statut:
+          type: string
+        AuthorUser:
+          $ref: '#/components/schemas/User.jsonld'
+        ResponsableUser:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.jsonld'
+            -
+              type: 'null'
+        Composter:
+          type: string
+          format: iri-reference
+          example: 'https://example.com/'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        closedAt:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        statut:
+          type: string
+        authorUser:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.jsonld'
+            -
+              type: 'null'
+        responsableUser:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.jsonld'
+            -
+              type: 'null'
+        composter:
+          type:
+            - string
+            - 'null'
+          format: iri-reference
+          example: 'https://example.com/'
+    User.jsonld:
+      type: object
+      description: ''
+      deprecated: false
+      properties:
+        '@context':
+          readOnly: true
+          oneOf:
+            -
+              type: string
+            -
+              type: object
+              properties:
+                '@vocab':
+                  type: string
+                hydra:
+                  type: string
+                  enum: ['http://www.w3.org/ns/hydra/core#']
+              required:
+                - '@vocab'
+                - hydra
+              additionalProperties: true
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          type: integer
+        username:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+        password:
+          description: 'The hashed password'
+          type: string
+        lastname:
+          type: string
+        firstname:
+          type: string
+        email:
+          type: string
+        userIdentifier:
+          readOnly: true
+          description: 'A visual identifier that represents this user.'
+          type: string
+  responses: {  }
+  parameters: {  }
+  examples: {  }
+  requestBodies: {  }
+  headers: {  }
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  -
+    JWT: []
+tags: []

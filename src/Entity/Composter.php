@@ -12,13 +12,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ComposterRepository::class)]
-#[ApiResource(
-    operations: [
-        new Get(),
-        new GetCollection(),
-        new Post()
-    ],
-)]
+#[Get]
+#[GetCollection]
+#[Post(security: "is_granted('ROLE_ADMIN')")]
 class Composter
 {
     #[ORM\Id]

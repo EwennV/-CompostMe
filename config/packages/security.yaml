@@ -20,16 +20,26 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/login$, roles: PUBLIC_ACCESS }
-        - { path: ^/api$, roles: PUBLIC_ACCESS }
-        - { path: ^/auth$, roles: PUBLIC_ACCESS }
+        - { path: ^/(login|auth|api)$, roles: PUBLIC_ACCESS }
+        - { path: ^/api, roles: ROLE_ADMIN }
         - { path: ^/, roles: ROLE_USER }
 
     firewalls:
+        api_login:
+            pattern: ^/auth
+            stateless: true
+            json_login:
+                check_path: auth
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+                username_path: email
+                password_path: password
+
         api:
             pattern: ^/api
+            stateless: true
             jwt: ~
+
         main:
             form_login: ~
             lazy: true
@@ -38,13 +48,6 @@ security:
                 path: app_logout
                 # where to redirect after logout
                 target: app_home
-
-            json_login:
-                check_path: auth
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
-                username_path: email
-                password_path: password
 
             entry_point: form_login
 

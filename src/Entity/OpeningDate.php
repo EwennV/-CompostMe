@@ -2,11 +2,15 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\OpeningDateRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OpeningDateRepository::class)]
+#[GetCollection]
+#[Get]
 class OpeningDate
 {
     #[ORM\Id]
