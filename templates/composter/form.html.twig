@@ -6,8 +6,9 @@
 <div class="d-flex flex-row" style="height: 100vh;">
     <div class="form container col-11 col-sm-8 col-md-5 col-lg-3 mt-5">
         {{ form_start(form) }}
-        {{ form_row(form.longitude) }}
-        {{ form_row(form.latitude) }}
+        {{ form_row(form.longitude, {'attr': {'id': 'composter_longitude'}}) }}
+        {{ form_row(form.latitude, {'attr': {'id': 'composter_latitude'}}) }}
+        <div style="margin-bottom: 1rem"><i style="color: #57E44C">*Pose un point sur la carte !</i></div>
         {{ form_row(form.contact) }}
         {{ form_row(form.ownerType) }}
         {{ form_row(form.accessType) }}
@@ -28,6 +29,22 @@
     L.marker([{{ composter.latitude }}, {{ composter.longitude }}]).addTo(map)
         .bindPopup("<b>Composteur :</b> {{ composter.contact }}");
     {% endfor %}
+
+    var marker;
+
+    map.on('click', function(e) {
+        var lat = e.latlng.lat;
+        var lng = e.latlng.lng;
+
+        if (marker) {
+            map.removeLayer(marker);
+        }
+
+        marker = L.marker([lat, lng]).addTo(map);
+
+        document.getElementById('composter_longitude').value = lng.toFixed(5);
+        document.getElementById('composter_latitude').value = lat.toFixed(5);
+    });
 </script>
 {% endblock %}
 
