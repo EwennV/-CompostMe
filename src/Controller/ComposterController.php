@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\ComposterType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,13 +20,16 @@ class ComposterController extends AbstractController
     }
 
     #[Route('/composter/add', name: 'app_composter_add')]
-    public function addComposter(Request $request): Response
+    public function addComposter(Request $request, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ComposterType::class);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() and $form->isValid()) {
+            $composter = $form->getData();
+            $entityManager->persist($composter);
+            $entityManager->flush();
             return $this->redirectToRoute('app_composter_list');
         }
 
