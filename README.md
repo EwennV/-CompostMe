@@ -9,7 +9,13 @@ Bloc 3 du CESI
 
 ## Installation du projet
 
-Assurez-vous d'avoir [Composer](https://getcomposer.org/download/), [Symfony 6.4](https://symfony.com/download), [PHP 8.1](https://www.php.net/downloads) et [Node.js](https://nodejs.org/en/download/) installés sur votre machine.
+### Prérequis
+- [Composer](https://getcomposer.org/download/)
+- [Symfony 6.4](https://symfony.com/download)
+- [PHP 8.1](https://www.php.net/downloads)
+- [Node.js](https://nodejs.org/en/download/) 
+- [OpenSSL (Windows)](https://community.chocolatey.org/packages/openssl)
+- [OpenSSL (Linux)](https://www.openssl.org/source/)
 
 Assurez-vous également d'avoir activer les extensions suivantes dans votre fichier php.ini :
 - mysqli
@@ -35,6 +41,12 @@ Installez Bootstrap et lancez le build :
 ````shell
 npm install
 npm run build
+````
+
+Vous devrez installer une pair de clés SSH pour pouvoir utiliser les fonctionnalités de sécurité de l'API. Pour cela, exécutez la commande suivante :
+
+````shell
+php bin/console lexik:jwt:generate-keypair
 ````
 
 Et voilà ! Il ne vous reste plus qu'à lancer votre serveur :
