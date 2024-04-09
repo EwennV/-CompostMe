@@ -3,9 +3,45 @@
 {% block title %}Formulaire composteur{% endblock %}
 
 {% block body %}
-    <div class="form container col-11 col-sm-8 col-md-5 col-lg-3">
+<div class="d-flex flex-row" style="height: 100vh;">
+    <div class="form container col-11 col-sm-8 col-md-5 col-lg-3 mt-5">
         {{ form_start(form) }}
+        {{ form_row(form.longitude) }}
+        {{ form_row(form.latitude) }}
+        {{ form_row(form.contact) }}
+        {{ form_row(form.ownerType) }}
+        {{ form_row(form.accessType) }}
+        {{ form_row(form.fillRate) }}
         <button type="submit" class="btn btn-primary">Ajouter</button>
         {{ form_end(form) }}
     </div>
+    <div id="mapid" style="height: 100%; width: 50%;"></div>
+</div>    
+<script>
+    var map = L.map('mapid').setView([44.864984495119764, -0.5782488698590921], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    {% for composter in composters %}
+    L.marker([{{ composter.latitude }}, {{ composter.longitude }}]).addTo(map)
+        .bindPopup("<b>Composteur :</b> {{ composter.contact }}");
+    {% endfor %}
+</script>
 {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
+{% endblock %}
+

@@ -21,15 +21,15 @@ class ComposterType extends AbstractType
             ->add('longitude', NumberType::class)
             ->add('latitude', NumberType::class)
             ->add('contact', TextType::class)
-            ->add('OwnerType', EntityType::class, [
+            ->add('ownerType', EntityType::class, [
                 'class' => OwnerType::class,
                 'choice_label' => 'name',
             ])
-            ->add('AccessType', EntityType::class, [
+            ->add('accessType', EntityType::class, [
                 'class' => AccessType::class,
                 'choice_label' => 'name',
             ])
-            ->add('FillRate', EntityType::class, [
+            ->add('fillRate', EntityType::class, [
                 'class' => FillRateType::class,
                 'choice_label' => 'name',
             ]);
