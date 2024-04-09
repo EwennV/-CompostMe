@@ -12,13 +12,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AccessTypeRepository::class)]
-#[ApiResource(
-    operations: [
-        new GetCollection(),
-        new Get(),
-        new Post()
-    ],
-)]
+#[Get]
+#[GetCollection]
 class AccessType
 {
     #[ORM\Id]
