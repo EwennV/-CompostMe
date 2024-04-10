@@ -7,9 +7,9 @@
 
 // any CSS you import will output into a single css file (app.scss in this case)
 import './styles/app.scss';
-import L from 'leaflet';
-
+import './styles/adminSidebar.scss';
 import { Toast, Collapse} from "bootstrap";
+import L from 'leaflet';
 
 document.addEventListener('DOMContentLoaded', function() {
     var map = L.map('mapid').setView([51.505, -0.09], 13);

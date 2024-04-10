@@ -1,0 +1,22 @@
+#adminSidePanel {
+  position: static;
+  min-height: calc(100vh - 60px);
+  height: 100%;
+  overflow-x: hidden;
+  transition: width 0.5s;
+
+  & .nav .nav-item .nav-link {
+    margin: 5px 0;
+    padding: 5px 10px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--bs-primary-bg-subtle);
+    }
+
+    & svg {
+      width: 1rem;
+      margin-right: 10px;
+    }
+  }
+}

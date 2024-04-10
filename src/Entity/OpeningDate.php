@@ -4,12 +4,14 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
 use App\Repository\OpeningDateRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OpeningDateRepository::class)]
 #[GetCollection]
+#[Post(security: "is_granted('ROLE_ADMIN')")]
 #[Get]
 class OpeningDate
 {
