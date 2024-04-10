@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AccessTypeRepository::class)]
 #[Get]
+#[Post(security: "is_granted('ROLE_ADMIN')")]
 #[GetCollection]
 class AccessType
 {

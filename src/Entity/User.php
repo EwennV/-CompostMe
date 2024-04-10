@@ -2,12 +2,17 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[Get(security: 'is_granted("ROLE_ADMIN")')]
+#[GetCollection(security: 'is_granted("ROLE_ADMIN")')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -35,6 +40,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
+
+    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'AuthorUser')]
+    private Collection $tickets;
+
+    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'ResponsableUser')]
+    private Collection $AttributedTickets;
+
+    #[ORM\ManyToOne(targetEntity: UserType::class, inversedBy: 'users')]
+    private UserType $userType;
 
     public function getId(): ?int
     {
@@ -138,6 +152,58 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getTickets(): Collection
+    {
+        return $this->tickets;
+    }
+
+    public function addTicket(Ticket $ticket): static
+    {
+        if (!$this->tickets->contains($ticket)) {
+            $this->tickets->add($ticket);
+            $ticket->setAuthorUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTicket(Ticket $ticket): static
+    {
+        if ($this->tickets->removeElement($ticket)) {
+            if ($ticket->getAuthorUser() === $this) {
+                $ticket->setAuthorUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAttribuedTickets(): Collection
+    {
+        return $this->AttributedTickets;
+    }
+
+    public function addAttribuedTicket(Ticket $ticket): static
+    {
+        if (!$this->AttributedTickets->contains($ticket)) {
+            $this->AttributedTickets->add($ticket);
+            $ticket->setResponsableUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttribuedTicket(Ticket $ticket): static
+    {
+        if ($this->AttributedTickets->removeElement($ticket)) {
+            if ($ticket->getResponsableUser() === $this) {
+                $ticket->setResponsableUser(null);
+            }
+        }
 
         return $this;
     }
