@@ -9,6 +9,10 @@ $white: #FFFAFB;
 
 @import 'bootstrap';
 
+.btn-primary {
+    --bs-btn-color: #{ $white };
+    --bs-btn-hover-color: #{ $white };
+}
 a {
     text-decoration: none;
     color: $gray-800;
