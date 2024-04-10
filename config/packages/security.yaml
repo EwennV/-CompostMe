@@ -28,7 +28,6 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
         api_login:
             pattern: ^/auth
             stateless: true
@@ -43,7 +42,10 @@ security:
             pattern: ^/api
             stateless: true
             jwt: ~
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
         main:
             form_login: ~
             lazy: true
@@ -52,7 +54,11 @@ security:
                 path: app_logout
                 # where to redirect after logout
                 target: app_home
+<<<<<<< HEAD
 
+=======
+                
+>>>>>>> master
             entry_point: form_login
 
             remember_me:
