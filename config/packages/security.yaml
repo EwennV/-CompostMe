@@ -42,7 +42,7 @@ security:
             pattern: ^/api
             stateless: true
             jwt: ~
-
+            
         main:
             form_login: ~
             lazy: true
@@ -51,7 +51,7 @@ security:
                 path: app_logout
                 # where to redirect after logout
                 target: app_home
-
+                
             entry_point: form_login
 
             remember_me:
