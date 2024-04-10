@@ -42,10 +42,7 @@ security:
             pattern: ^/api
             stateless: true
             jwt: ~
-<<<<<<< HEAD
-
-=======
->>>>>>> master
+            
         main:
             form_login: ~
             lazy: true
@@ -54,11 +51,7 @@ security:
                 path: app_logout
                 # where to redirect after logout
                 target: app_home
-<<<<<<< HEAD
-
-=======
                 
->>>>>>> master
             entry_point: form_login
 
             remember_me:
