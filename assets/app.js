@@ -8,8 +8,11 @@
 // any CSS you import will output into a single css file (app.scss in this case)
 import './styles/app.scss';
 import './styles/adminSidebar.scss';
-import { Toast, Collapse} from "bootstrap";
+import { Toast, Collapse, Tooltip} from "bootstrap";
 import L from 'leaflet';
+
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl))
 
 document.addEventListener('DOMContentLoaded', function() {
     var map = L.map('mapid').setView([51.505, -0.09], 13);

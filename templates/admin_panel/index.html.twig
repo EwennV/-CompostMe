@@ -1,22 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AdminPanelController!{% endblock %}
+{% block title %}Tableau de bord - Panel administrateur | Compost &Me{% endblock %}
 
 {% block body %}
 
-<div class="d-flex d-inline-flex overflow-hidden">
+<div class="d-flex d-inline-flex h-100 w-100">
     {% include 'admin_panel/side_panel.html.twig' %}
-    <div class="container overflow-auto">
-        <h1>Hello AdminPanelController!</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare dolor ac urna ullamcorper scelerisque. Nullam in tempus ipsum. Suspendisse turpis tortor, ultricies vitae velit non, dictum mollis ipsum. Proin gravida pulvinar scelerisque. Curabitur vel neque id ligula efficitur congue. Nullam eu tincidunt nisl. Mauris ullamcorper, felis eu pulvinar malesuada, mi lectus ornare sapien, in fermentum nulla lacus ac massa. Fusce at pulvinar diam. Sed mollis lorem vel auctor dapibus. Proin vulputate diam ac elementum imperdiet. Nunc in scelerisque ipsum, varius ullamcorper arcu. Morbi et metus erat.
-
-            Pellentesque tortor libero, ornare non consequat vel, scelerisque quis urna. In porttitor placerat dui ac iaculis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec tincidunt nulla blandit leo tincidunt tempus. Etiam eleifend venenatis libero, sed feugiat quam tincidunt fermentum. Duis luctus tempor urna, et dictum augue tempus non. Nulla sodales nec metus non dictum. Proin volutpat sed elit sed cursus. Mauris ac condimentum dui. Quisque luctus orci elit, nec faucibus nulla laoreet imperdiet. Pellentesque quis arcu a dui lobortis luctus non et arcu. Proin tincidunt, est vitae finibus maximus, tellus ex molestie nisi, eget malesuada nisi tortor eu elit. Aliquam at dignissim lectus, quis dictum sapien.
-
-            Nam faucibus libero nulla, vel mattis sapien porta non. Fusce aliquet leo eget ultrices rutrum. Proin massa nulla, tempor at aliquam at, placerat nec enim. Quisque ac tempus tortor, quis scelerisque sapien. Vestibulum tempor tincidunt sapien, et porttitor enim venenatis at. Donec eget eleifend ipsum. Pellentesque a tellus sodales, commodo purus tincidunt, pharetra nulla. Curabitur finibus nulla in mi varius, nec pellentesque diam ullamcorper.
-
-            Aliquam sodales commodo risus, nec ornare leo aliquet et. Phasellus imperdiet congue pellentesque. In congue nisi lorem, in tempor lectus lacinia sit amet. In consequat erat sollicitudin velit egestas placerat. Pellentesque quis nulla ante. Curabitur eu malesuada ligula, vitae dictum dui. Vivamus sit amet fringilla arcu. Aenean sodales malesuada tempor.
-
-            Donec euismod mattis odio ac pulvinar. Proin ac magna id leo auctor rutrum. Sed odio sem, congue et fringilla in, facilisis sed arcu. Cras vulputate scelerisque ipsum a auctor. Mauris fringilla fermentum iaculis. Praesent accumsan eros tellus, sed porttitor risus interdum eu. Vestibulum eu sem sed massa faucibus dapibus nec eget lacus. Vivamus at quam ac neque euismod efficitur vitae in tellus.</p>
-</div>
+    <div class="container-fluid m-2 mb-5 m-lg-4">
+        <h1 class="title-underline">Tableau de bord</h1>
+        <div class="d-flex w-100 gap-4 flex-wrap mt-4">
+            <div class="card col-12 col-lg shadow border-0 svg-background" style="background-image: url('{{ asset('img/composter.svg') }}')">
+                <div class="card-body">
+                    <span class="card-title text-muted">
+                        Nombre de composteurs
+                    </span>
+                    <p class="card-text fw-bold fs-2">{{ composters|length }}</p>
+                </div>
+            </div>
+            <div class="card col-12 col-lg shadow border-0 svg-background" style="background-image: url('{{ asset('img/speedometer.svg') }}')">
+                <div class="card-body">
+                    <span class="card-title text-muted">
+                        Taux de remplissage global
+                    </span>
+                    <p class="card-text fw-bold fs-2">88%</p>
+                </div>
+            </div>
+            <div class="card col-12 col-lg shadow border-0 svg-background" style="background-image: url('{{ asset('img/support.svg') }}')">
+                <div class="card-body">
+                    <span class="card-title text-muted">
+                        Nombre de tickets
+                    </span>
+                    <p class="card-text fw-bold fs-2">{{ tickets|length }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
