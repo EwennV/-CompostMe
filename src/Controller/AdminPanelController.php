@@ -25,8 +25,15 @@ class AdminPanelController extends AbstractController
     public function tickets(TicketRepository $ticketRepository): Response
     {
         return $this->render('admin_panel/tickets/list.html.twig', [
-            'controller_name' => 'AdminPanelController',
             'tickets' => $ticketRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/panel/composters', name: 'app_admin_panel_composters')]
+    public function composters(ComposterRepository $composterRepository): Response
+    {
+        return $this->render('admin_panel/composters/list.html.twig', [
+            'composters' => $composterRepository->findAll(),
         ]);
     }
 }
