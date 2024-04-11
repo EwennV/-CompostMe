@@ -42,7 +42,7 @@ security:
             pattern: ^/api
             stateless: true
             jwt: ~
-
+            
         main:
             form_login: ~
             lazy: true
