@@ -13,7 +13,36 @@ $white: #FFFAFB;
     --bs-btn-color: #{ $white };
     --bs-btn-hover-color: #{ $white };
 }
+
+.btn-danger {
+    --bs-btn-color: #{ $white };
+    --bs-btn-hover-color: #{ $white };
+}
 a {
     text-decoration: none;
-    color: $gray-800;
+    color: $primary;
+}
+
+.svg-background {
+    background-size: 6rem;
+    background-repeat: no-repeat;
+    background-position-x: calc(100% + 1rem);
+    background-position-y: calc(100% + 1rem);
+}
+
+.title-underline {
+    width: fit-content;
+    &::after {
+        content: "";
+        width: 100%;
+        position: relative;
+        display: block;
+        border-top: 4px solid $primary;
+        margin-left: 1rem;
+    }
+}
+
+table td, th {
+    white-space: nowrap;
+    vertical-align: middle;
 }
