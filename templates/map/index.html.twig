@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Carte des Composteurs{% endblock %}
+
+{% block body %}
+<div class="filters">
+    <!-- Filtre Owner Type -->
+    <div class="filter-category">
+        <h3>Owner Type</h3>
+        {% for type in ownerTypes %}
+        <div class="form-check">
+            <input class="form-check-input filter-checkbox ownerType" type="checkbox" value="{{ type.id }}" id="ownerType{{ type.id }}" name="ownerType">
+            <label class="form-check-label" for="ownerType{{ type.id }}">
+                {{ type.name }}
+            </label>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Filtre Access Type -->
+    <div class="filter-category">
+        <h3>Access Type</h3>
+        {% for type in accessTypes %}
+        <div class="form-check">
+            <input class="form-check-input filter-checkbox accessType" type="checkbox" value="{{ type.id }}" id="accessType{{ type.id }}" name="accessType">
+            <label class="form-check-label" for="accessType{{ type.id }}">
+                {{ type.name }}
+            </label>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Filtre Fill Rate -->
+    <div class="filter-category">
+        <h3>Fill Rate</h3>
+        {% for rate in fillRateTypes %}
+        <div class="form-check">
+            <input class="form-check-input filter-checkbox fillRate" type="checkbox" value="{{ rate.id }}" id="fillRate{{ rate.id }}" name="fillRate">
+            <label class="form-check-label" for="fillRate{{ rate.id }}">
+                {{ rate.name }}
+            </label>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="d-flex flex-row" style="height: 100vh;">
+    <div id="mapid" style="height: 100%; width: 100%;"></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var map = L.map('mapid').setView([44.864984495119764, -0.5782488698590921], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    updateMap();
+
+    document.querySelectorAll('.filter-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', updateMap);
+    });
+    function updateMap() {
+        const ownerTypeIds = getSelectedFilterIds('ownerType');
+        const accessTypeIds = getSelectedFilterIds('accessType');
+        const fillRateIds = getSelectedFilterIds('fillRate');
+
+        fetch(`/composter/filter?ownerType=${ownerTypeIds}&accessType=${accessTypeIds}&fillRate=${fillRateIds}`)
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(data => {
+                map.eachLayer(layer => {
+                    if (layer instanceof L.Marker) map.removeLayer(layer);
+                });
+
+                data.composters.forEach(composter => {
+                    L.marker([composter.latitude, composter.longitude])
+                        .bindPopup(`<b>Composteur :</b> ${composter.contact}`)
+                        .addTo(map);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function getSelectedFilterIds(filterName) {
+    return Array.from(document.querySelectorAll(`input[name="${filterName}"]:checked`))
+        .map(checkbox => checkbox.value)
+        .join(',');
+    }
+});
+</script>
+{% endblock %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
+{% endblock %}
+

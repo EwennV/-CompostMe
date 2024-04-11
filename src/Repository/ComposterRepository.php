@@ -21,7 +21,34 @@ class ComposterRepository extends ServiceEntityRepository
         parent::__construct($registry, Composter::class);
     }
 
-//    /**
+    public function findByFilters($ownerTypeId, $accessTypeId, $fillRateId)
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        if (!empty($ownerTypeId)) {
+            $ownerTypeIds = explode(',', $ownerTypeId);
+            $qb->andWhere('c.ownerType IN (:ownerTypeIds)')
+                ->setParameter('ownerTypeIds', $ownerTypeIds);
+        }
+
+        if (!empty($accessTypeId)) {
+            $accessTypeIds = explode(',', $accessTypeId);
+            $qb->andWhere('c.accessType IN (:accessTypeIds)')
+                ->setParameter('accessTypeIds', $accessTypeIds);
+        }
+
+        if (!empty($fillRateId)) {
+            $fillRateIds = explode(',', $fillRateId);
+            $qb->andWhere('c.fillRate IN (:fillRateIds)')
+                ->setParameter('fillRateIds', $fillRateIds);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+
+
+    //    /**
 //     * @return Composter[] Returns an array of Composter objects
 //     */
 //    public function findByExampleField($value): array
@@ -36,7 +63,7 @@ class ComposterRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Composter
+    //    public function findOneBySomeField($value): ?Composter
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')
