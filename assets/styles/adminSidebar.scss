@@ -1,22 +1,27 @@
 #adminSidePanel {
-  position: static;
-  min-height: calc(100vh - 60px);
-  height: 100%;
-  overflow-x: hidden;
-  transition: width 0.5s;
+  .nav-pills {
+    top: 20px;
+  }
 
-  & .nav .nav-item .nav-link {
-    margin: 5px 0;
-    padding: 5px 10px;
-    cursor: pointer;
-
+  .nav-item {
     &:hover {
-      background-color: var(--bs-primary-bg-subtle);
+        & .nav-link {
+          background-color: var(--bs-primary-bg-subtle);
+        }
     }
+  }
+}
 
-    & svg {
-      width: 1rem;
-      margin-right: 10px;
+@media (min-width: 992px) {
+  #adminSidePanel {
+    position: relative;
+
+    & .nav-item {
+      width: 100%;
+
+      & svg {
+        margin-right: 0.5rem;
+      }
     }
   }
 }

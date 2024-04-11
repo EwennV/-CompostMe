@@ -26,27 +26,27 @@ class Ticket
     private ?string $description = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $CreatedAt = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $UpdatedAt = null;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $ClosedAt = null;
+    private ?\DateTimeImmutable $closedAt = null;
 
     #[ORM\Column(length: 16)]
-    private ?string $Statut = null;
+    private ?string $status = 'En attente';
 
     #[ORM\ManyToOne(inversedBy: 'tickets')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $AuthorUser = null;
+    private ?User $authorUser = null;
 
     #[ORM\ManyToOne(inversedBy: 'AttributedTickets')]
-    private ?User $ResponsableUser = null;
+    private ?User $responsableUser = null;
 
     #[ORM\ManyToOne(inversedBy: 'tickets')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Composter $Composter = null;
+    private ?Composter $composter = null;
 
     public function getId(): ?int
     {
@@ -79,84 +79,84 @@ class Ticket
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->CreatedAt;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $CreatedAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        $this->CreatedAt = $CreatedAt;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        return $this->UpdatedAt;
+        return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeImmutable $UpdatedAt): static
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
     {
-        $this->UpdatedAt = $UpdatedAt;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
     public function getClosedAt(): ?\DateTimeImmutable
     {
-        return $this->ClosedAt;
+        return $this->closedAt;
     }
 
-    public function setClosedAt(?\DateTimeImmutable $ClosedAt): static
+    public function setClosedAt(?\DateTimeImmutable $closedAt): static
     {
-        $this->ClosedAt = $ClosedAt;
+        $this->closedAt = $closedAt;
 
         return $this;
     }
 
-    public function getStatut(): ?string
+    public function getStatus(): ?string
     {
-        return $this->Statut;
+        return $this->status;
     }
 
-    public function setStatut(string $Statut): static
+    public function setStatus(string $status): static
     {
-        $this->Statut = $Statut;
+        $this->status = $status;
 
         return $this;
     }
 
     public function getAuthorUser(): ?User
     {
-        return $this->AuthorUser;
+        return $this->authorUser;
     }
 
-    public function setAuthorUser(?User $AuthorUser): static
+    public function setAuthorUser(?User $authorUser): static
     {
-        $this->AuthorUser = $AuthorUser;
+        $this->authorUser = $authorUser;
 
         return $this;
     }
 
     public function getResponsableUser(): ?User
     {
-        return $this->ResponsableUser;
+        return $this->responsableUser;
     }
 
-    public function setResponsableUser(?User $ResponsableUser): static
+    public function setResponsableUser(?User $responsableUser): static
     {
-        $this->ResponsableUser = $ResponsableUser;
+        $this->responsableUser = $responsableUser;
 
         return $this;
     }
 
     public function getComposter(): ?Composter
     {
-        return $this->Composter;
+        return $this->composter;
     }
 
-    public function setComposter(?Composter $Composter): static
+    public function setComposter(?Composter $composter): static
     {
-        $this->Composter = $Composter;
+        $this->composter = $composter;
 
         return $this;
     }
