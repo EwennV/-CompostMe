@@ -12,8 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OwnerTypeRepository::class)]
 #[GetCollection]
-#[Post(security: "is_granted('ROLE_ADMIN')")]
 #[Get]
+#[Post(security: "is_granted('ROLE_ADMIN')")]
 class OwnerType
 {
     #[ORM\Id]
@@ -24,7 +24,7 @@ class OwnerType
     #[ORM\Column(length: 124)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(targetEntity: Composter::class, mappedBy: 'OwnerType')]
+    #[ORM\OneToMany(targetEntity: Composter::class, mappedBy: 'ownerType')]
     private Collection $composters;
 
     public function __construct()
