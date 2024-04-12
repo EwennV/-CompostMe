@@ -3,49 +3,70 @@
 {% block title %}Carte des Composteurs{% endblock %}
 
 {% block body %}
-<div class="filters">
-    <!-- Filtre Owner Type -->
-    <div class="filter-category">
-        <h3>Owner Type</h3>
-        {% for type in ownerTypes %}
-        <div class="form-check">
-            <input class="form-check-input filter-checkbox ownerType" type="checkbox" value="{{ type.id }}" id="ownerType{{ type.id }}" name="ownerType">
-            <label class="form-check-label" for="ownerType{{ type.id }}">
-                {{ type.name }}
-            </label>
-        </div>
-        {% endfor %}
-    </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="filters">
+                <h3>Filtres</h3>
+                <div class="filter-category">
+                    <h4>Owner Type</h4>
+                    {% for type in ownerTypes %}
+                    <div class="form-check">
+                        <input class="form-check-input filter-checkbox ownerType" type="checkbox" value="{{ type.id }}" id="ownerType{{ type.id }}" name="ownerType">
+                        <label class="form-check-label" for="ownerType{{ type.id }}">
+                            {{ type.name }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
 
-    <!-- Filtre Access Type -->
-    <div class="filter-category">
-        <h3>Access Type</h3>
-        {% for type in accessTypes %}
-        <div class="form-check">
-            <input class="form-check-input filter-checkbox accessType" type="checkbox" value="{{ type.id }}" id="accessType{{ type.id }}" name="accessType">
-            <label class="form-check-label" for="accessType{{ type.id }}">
-                {{ type.name }}
-            </label>
-        </div>
-        {% endfor %}
-    </div>
+                <div class="filter-category">
+                    <h4>Access Type</h4>
+                    {% for type in accessTypes %}
+                    <div class="form-check">
+                        <input class="form-check-input filter-checkbox accessType" type="checkbox" value="{{ type.id }}" id="accessType{{ type.id }}" name="accessType">
+                        <label class="form-check-label" for="accessType{{ type.id }}">
+                            {{ type.name }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
 
-    <!-- Filtre Fill Rate -->
-    <div class="filter-category">
-        <h3>Fill Rate</h3>
-        {% for rate in fillRateTypes %}
-        <div class="form-check">
-            <input class="form-check-input filter-checkbox fillRate" type="checkbox" value="{{ rate.id }}" id="fillRate{{ rate.id }}" name="fillRate">
-            <label class="form-check-label" for="fillRate{{ rate.id }}">
-                {{ rate.name }}
-            </label>
+                <div class="filter-category">
+                    <h4>Fill Rate</h4>
+                    {% for rate in fillRateTypes %}
+                    <div class="form-check">
+                        <input class="form-check-input filter-checkbox fillRate" type="checkbox" value="{{ rate.id }}" id="fillRate{{ rate.id }}" name="fillRate">
+                        <label class="form-check-label" for="fillRate{{ rate.id }}">
+                            {{ rate.name }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+                <button id="applyFilters" class="btn btn-primary w-100">Appliquer les filtres</button>
         </div>
-        {% endfor %}
-    </div>
-</div>
 
-<div class="d-flex flex-row" style="height: 100vh;">
-    <div id="mapid" style="height: 100%; width: 100%;"></div>
+        <div class="col-md-6">
+            <h3>Liste des Composteurs</h3>
+            <div class="list-group">
+                {% for composter in composters %}
+                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ composter.contact }}</h5>
+                        <small>Longitude: {{ composter.longitude }}, Latitude: {{ composter.latitude }}</small>
+                    </div>
+                    <p class="mb-1">Owner: {{ composter.ownerType.name }}</p>
+                    <small>Access: {{ composter.accessType.name }}</small>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div id="mapid" style="height: 100vh;"></div>
+        </div>
+    </div>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -56,9 +77,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     updateMap();
 
-    document.querySelectorAll('.filter-checkbox').forEach(checkbox => {
-        checkbox.addEventListener('change', updateMap);
-    });
+    document.getElementById('applyFilters').addEventListener('click', updateMap);
+
     function updateMap() {
         const ownerTypeIds = getSelectedFilterIds('ownerType');
         const accessTypeIds = getSelectedFilterIds('accessType');
@@ -84,11 +104,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function getSelectedFilterIds(filterName) {
-    return Array.from(document.querySelectorAll(`input[name="${filterName}"]:checked`))
-        .map(checkbox => checkbox.value)
-        .join(',');
+        return Array.from(document.querySelectorAll(`input[name="${filterName}"]:checked`))
+            .map(checkbox => checkbox.value)
+            .join(',');
     }
 });
+
 </script>
 {% endblock %}
 
