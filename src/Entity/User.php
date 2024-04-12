@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use App\Repository\UserRepository;
@@ -30,6 +31,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[ApiProperty(readable: false, writable: false)]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
@@ -46,9 +48,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'responsableUser')]
     private Collection $attributedTickets;
-
-    #[ORM\ManyToOne(targetEntity: UserType::class, inversedBy: 'users')]
-    private UserType $userType;
 
     public function getId(): ?int
     {
@@ -184,13 +183,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getAttribuedTickets(): Collection
     {
-        return $this->AttributedTickets;
+        return $this->attributedTickets;
     }
 
     public function addAttribuedTicket(Ticket $ticket): static
     {
-        if (!$this->AttributedTickets->contains($ticket)) {
-            $this->AttributedTickets->add($ticket);
+        if (!$this->attributedTickets->contains($ticket)) {
+            $this->attributedTickets->add($ticket);
             $ticket->setResponsableUser($this);
         }
 
@@ -199,7 +198,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeAttribuedTicket(Ticket $ticket): static
     {
-        if ($this->AttributedTickets->removeElement($ticket)) {
+        if ($this->attributedTickets->removeElement($ticket)) {
             if ($ticket->getResponsableUser() === $this) {
                 $ticket->setResponsableUser(null);
             }
