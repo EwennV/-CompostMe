@@ -8,6 +8,7 @@
         <div class="col-md-3">
             <div class="filters">
                 <h3>Filtres</h3>
+                <!-- Owner Type Filter -->
                 <div class="filter-category">
                     <h4>Owner Type</h4>
                     {% for type in ownerTypes %}
@@ -20,6 +21,7 @@
                     {% endfor %}
                 </div>
 
+                <!-- Access Type Filter -->
                 <div class="filter-category">
                     <h4>Access Type</h4>
                     {% for type in accessTypes %}
@@ -32,6 +34,7 @@
                     {% endfor %}
                 </div>
 
+                <!-- Fill Rate Filter -->
                 <div class="filter-category">
                     <h4>Fill Rate</h4>
                     {% for rate in fillRateTypes %}
@@ -43,23 +46,17 @@
                     </div>
                     {% endfor %}
                 </div>
+                <div class="filters">
+                    <button id="applyFilters" class="btn btn-primary mt-3">Appliquer les filtres</button>
+                    <button id="resetFilters" class="btn btn-secondary mt-3">Réinitialiser les filtres</button>
+                </div>
             </div>
-                <button id="applyFilters" class="btn btn-primary w-100">Appliquer les filtres</button>
         </div>
 
         <div class="col-md-6">
             <h3>Liste des Composteurs</h3>
-            <div class="list-group">
-                {% for composter in composters %}
-                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">{{ composter.contact }}</h5>
-                        <small>Longitude: {{ composter.longitude }}, Latitude: {{ composter.latitude }}</small>
-                    </div>
-                    <p class="mb-1">Owner: {{ composter.ownerType.name }}</p>
-                    <small>Access: {{ composter.accessType.name }}</small>
-                </a>
-                {% endfor %}
+            <div class="list-group" id="composterList">
+                <!-- Liste des composteurs injectée ici -->
             </div>
         </div>
 
@@ -75,9 +72,17 @@ document.addEventListener('DOMContentLoaded', function () {
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
+    // Appel initial pour charger les données
     updateMap();
 
     document.getElementById('applyFilters').addEventListener('click', updateMap);
+
+    document.getElementById('resetFilters').addEventListener('click', function() {
+        document.querySelectorAll('.filter-checkbox').forEach(checkbox => {
+            checkbox.checked = false;
+        });
+        updateMap();
+    });
 
     function updateMap() {
         const ownerTypeIds = getSelectedFilterIds('ownerType');
@@ -99,9 +104,29 @@ document.addEventListener('DOMContentLoaded', function () {
                         .bindPopup(`<b>Composteur :</b> ${composter.contact}`)
                         .addTo(map);
                 });
+                updateList(data.composters);
             })
             .catch(error => console.error('Error:', error));
+}
+
+    function updateList(composters) {
+        const listContainer = document.getElementById('composterList');
+        listContainer.innerHTML = '';  // Effacez la liste existante
+        composters.forEach(composter => {
+            const listItem = document.createElement('a');
+            listItem.className = 'list-group-item list-group-item-action flex-column align-items-start';
+            listItem.innerHTML = `
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">${composter.contact}</h5>
+                    <small>Longitude: ${composter.longitude}, Latitude: ${composter.latitude}</small>
+                </div>
+                <p class="mb-1">Owner: ${composter.ownerType}</p>
+                <small>Access: ${composter.accessType}</small>`;
+            listContainer.appendChild(listItem);
+        });
     }
+
+
 
     function getSelectedFilterIds(filterName) {
         return Array.from(document.querySelectorAll(`input[name="${filterName}"]:checked`))
@@ -112,7 +137,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 </script>
 {% endblock %}
-
 
 {% block stylesheets %}
     {{ parent() }}
@@ -127,4 +151,3 @@ document.addEventListener('DOMContentLoaded', function () {
             integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
             crossorigin=""></script>
 {% endblock %}
-

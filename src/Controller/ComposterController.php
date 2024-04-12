@@ -57,9 +57,9 @@ class ComposterController extends AbstractController
                 'latitude' => $composter->getLatitude(),
                 'longitude' => $composter->getLongitude(),
                 'contact' => $composter->getContact(),
-                'ownerType' => $composter->getOwnerType() ? $composter->getOwnerType()->getId() : null,
-                'accessType' => $composter->getAccessType() ? $composter->getAccessType()->getId() : null,
-                'fillRate' => $composter->getFillRate() ? $composter->getFillRate()->getId() : null,
+                'ownerType' => $composter->getOwnerType() ? $composter->getOwnerType()->getName() : null,
+                'accessType' => $composter->getAccessType() ? $composter->getAccessType()->getName() : null,
+                'fillRate' => $composter->getFillRate() ? $composter->getFillRate()->getName() : null,
             ];
         }, $composters);
 
