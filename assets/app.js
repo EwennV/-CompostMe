@@ -8,7 +8,7 @@
 // any CSS you import will output into a single css file (app.scss in this case)
 import './styles/app.scss';
 import './styles/adminSidebar.scss';
-import { Toast, Collapse, Tooltip} from "bootstrap";
+import { Toast, Collapse, Tooltip, Button} from "bootstrap";
 import L from 'leaflet';
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
@@ -21,3 +21,19 @@ document.addEventListener('DOMContentLoaded', function() {
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
   });
+
+const buttonsLoader = document.querySelectorAll('.btn-loader');
+
+buttonsLoader.forEach(button => {
+    button.addEventListener('click', (event) => {
+        const parentForm = button.form;
+
+        if (parentForm && parentForm.checkValidity()) {
+            button.innerHTML = `
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Chargement...
+        `;
+            button.classList.toggle("disabled")
+        }
+    });
+});
