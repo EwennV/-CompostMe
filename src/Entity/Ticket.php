@@ -4,14 +4,16 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\TicketRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TicketRepository::class)]
 #[GetCollection]
-#[Post]
 #[Get]
+#[Post]
+#[Patch(security: 'is_granted("ROLE_ADMIN")')]
 class Ticket
 {
     #[ORM\Id]
@@ -19,7 +21,7 @@ class Ticket
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 256)]
+    #[ORM\Column(length: 255)]
     private ?string $title = null;
 
     #[ORM\Column(length: 500)]
@@ -41,7 +43,7 @@ class Ticket
     #[ORM\JoinColumn(nullable: false)]
     private ?User $authorUser = null;
 
-    #[ORM\ManyToOne(inversedBy: 'AttributedTickets')]
+    #[ORM\ManyToOne(inversedBy: 'attributedTickets')]
     private ?User $responsableUser = null;
 
     #[ORM\ManyToOne(inversedBy: 'tickets')]

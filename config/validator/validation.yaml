@@ -1,0 +1,66 @@
+App\Entity\Composter:
+    properties:
+        longitude:
+            - NotBlank: ~
+            - Type: float
+        latitude:
+            - NotBlank: ~
+            - Type: float
+        contact:
+            - NotBlank: ~
+            - Type: string
+            - Length:
+                max: 255
+        ownerType:
+            - NotBlank: ~
+        accessType:
+            - NotBlank: ~
+        fillRate:
+            - NotBlank: ~
+
+App\Entity\Ticket:
+    properties:
+        title:
+            - NotBlank: ~
+            - Type: string
+            - Length:
+                  min: 5
+                  max: 255
+        description:
+            - NotBlank: ~
+            - Type: string
+            - Length:
+                  min: 10
+                  max: 500
+
+App\Entity\FillRateType:
+    properties:
+        name:
+            - NotBlank: ~
+            - Type: string
+            - Length:
+                  max: 50
+        pourcentage:
+            - NotBlank: ~
+            - Type: integer
+            - Range:
+                  max: 100
+        color:
+            - NotBlank: ~
+            - Type: string
+            - CssColor: ~
+
+App\Entity\OpeningDate:
+    properties:
+        day:
+            - NotBlank: ~
+            - Type: string
+            - Choice: [lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche]
+
+App\Entity\OwnerType:
+    properties:
+        name:
+            - NotBlank: ~
+            - Type: string
+            - Length:
+                  max: 124

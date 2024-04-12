@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\ComposterRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -12,9 +13,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ComposterRepository::class)]
-#[Get]
 #[GetCollection]
-#[Post(security: "is_granted('ROLE_ADMIN')")]
+#[Get]
+#[Post]
+#[Patch(security: 'is_granted("ROLE_ADMIN")')]
 class Composter
 {
     #[ORM\Id]
@@ -33,16 +35,16 @@ class Composter
 
     #[ORM\ManyToOne(inversedBy: 'composters')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?OwnerType $OwnerType = null;
+    private ?OwnerType $ownerType = null;
 
     #[ORM\ManyToOne(inversedBy: 'composters')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?AccessType $AccessType = null;
+    private ?AccessType $accessType = null;
 
     #[ORM\ManyToOne(inversedBy: 'composters')]
-    private ?FillRateType $FillRate = null;
+    private ?FillRateType $fillRate = null;
 
-    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'Composter')]
+    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'composter')]
     private Collection $tickets;
 
     public function __construct()
@@ -93,36 +95,36 @@ class Composter
 
     public function getOwnerType(): ?OwnerType
     {
-        return $this->OwnerType;
+        return $this->ownerType;
     }
 
-    public function setOwnerType(?OwnerType $OwnerType): static
+    public function setOwnerType(?OwnerType $ownerType): static
     {
-        $this->OwnerType = $OwnerType;
+        $this->ownerType = $ownerType;
 
         return $this;
     }
 
     public function getAccessType(): ?AccessType
     {
-        return $this->AccessType;
+        return $this->accessType;
     }
 
-    public function setAccessType(?AccessType $AccessType): static
+    public function setAccessType(?AccessType $accessType): static
     {
-        $this->AccessType = $AccessType;
+        $this->accessType = $accessType;
 
         return $this;
     }
 
     public function getFillRate(): ?FillRateType
     {
-        return $this->FillRate;
+        return $this->fillRate;
     }
 
-    public function setFillRate(?FillRateType $FillRate): static
+    public function setFillRate(?FillRateType $fillRate): static
     {
-        $this->FillRate = $FillRate;
+        $this->fillRate = $fillRate;
 
         return $this;
     }

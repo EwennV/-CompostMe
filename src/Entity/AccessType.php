@@ -12,9 +12,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AccessTypeRepository::class)]
+#[GetCollection]
 #[Get]
 #[Post(security: "is_granted('ROLE_ADMIN')")]
-#[GetCollection]
 class AccessType
 {
     #[ORM\Id]
@@ -25,7 +25,7 @@ class AccessType
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(targetEntity: Composter::class, mappedBy: 'AccessType')]
+    #[ORM\OneToMany(targetEntity: Composter::class, mappedBy: 'accessType')]
     private Collection $composters;
 
     public function __construct()
