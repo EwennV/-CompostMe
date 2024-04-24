@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paramètres - Panel administrateur | Compost &Me{% endblock %}
+
+{% block body %}
+
+<div class="d-flex d-inline-flex h-100 w-100">
+    {% include 'admin_panel/side_panel.html.twig' %}
+    <div class="container-fluid m-2 mb-5 m-lg-4">
+        <h1 class="title-underline">Paramètres</h1>
+        <div class="d-flex w-100 gap-4 flex-wrap mt-4">
+            <div class="accordion col-12 " id="accordionSettings">
+                <div class="accordion-item col-12 col-lg shadow border-0">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fillRateSettingsSection">
+                            Taux de remplissage
+                        </button>
+                    </h2>
+                    <div id="fillRateSettingsSection" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <div class="d-flex">
+                                <button
+                                        class="btn btn-primary ms-auto"
+                                        data-modal-toggle="form"
+                                        data-modal-title="Ajouter un taux de remplissage"
+                                        data-modal-href="{{ path('app_admin_panel_fillrate_add') }}"
+                                >
+                                    Ajouter
+                                </button>
+                            </div>
+                            {% if fillRates|length < 1 %}
+                                <div class="w-100 text-center text-muted pb-3 d-flex flex-column">
+                                    <img src="{{ asset('img/taken.svg') }}" alt="Aucun résultat" height="100px" class="m-2">
+                                    <span >
+                                        Aucun taux de remplissage.
+                                    </span>
+                                </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
