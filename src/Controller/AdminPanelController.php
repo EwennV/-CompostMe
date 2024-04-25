@@ -74,7 +74,7 @@ class AdminPanelController extends AbstractController
             $entityManager->persist($fillRateType);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Type de remplissage ajouté avec succès !');
+            $this->addFlash('success', 'Taux de remplissage ajouté avec succès !');
 
             return $this->redirectToRoute('app_admin_panel_settings');
         }

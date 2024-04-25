@@ -35,6 +35,42 @@
                                         Aucun taux de remplissage.
                                     </span>
                                 </div>
+                            {% else %}
+                                <table class="table w-100" id="ticketTable">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col" class="col">Nom</th>
+                                        <th scope="col">Valeur</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for fillRate in fillRates %}
+                                        <tr>
+                                            <td>{{ fillRate.name }}</td>
+                                            <td>{{ fillRate.pourcentage }}</td>
+                                            <td>
+                                                <button
+                                                        class="btn btn-warning"
+                                                        data-modal-toggle="form"
+                                                        data-modal-title="Modifier le taux de remplissage"
+                                                        data-modal-href="#"
+                                                >
+                                                    Modifier
+                                                </button>
+                                                <button
+                                                        class="btn btn-danger"
+                                                        data-modal-toggle="form"
+                                                        data-modal-title="Supprimer le taux de remplissage"
+                                                        data-modal-href="#"
+                                                >
+                                                    Supprimer
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
                             {% endif %}
 
                         </div>
@@ -44,6 +80,21 @@
         </div>
     </div>
 </div>
+
+    <link href="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-2.0.3/r-3.0.1/datatables.min.css" rel="stylesheet">
+    <script src="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-2.0.3/r-3.0.1/datatables.min.js"></script>
+    <script>
+        let table = new DataTable('#ticketTable', {
+            paging: false,
+            searching: false,
+            info: false,
+            lengthChange: false,
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json'
+            },
+            autoWidth: true
+        })
+    </script>
 
 {% endblock %}
 

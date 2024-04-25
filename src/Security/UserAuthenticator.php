@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAccountStatusException;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
@@ -37,6 +38,10 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
         return new Passport(
             new UserBadge($email, function($userIdentifier) {
                 $foundUser = $this->userRepository->findOneBy(['email' => $userIdentifier]);
+
+                if ($foundUser === null) {
+                    throw new BadCredentialsException();
+                }
 
                 if (false === $foundUser->isVerified()) {
                     throw new CustomUserMessageAccountStatusException("Votre adresse mail n'a pas été vérifiée. Vérifiez votre boîte mail.");
