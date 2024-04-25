@@ -16,7 +16,7 @@
                             Taux de remplissage
                         </button>
                     </h2>
-                    <div id="fillRateSettingsSection" class="accordion-collapse collapse">
+                    <div id="fillRateSettingsSection" class="accordion-collapse collapse show">
                         <div class="accordion-body">
                             <div class="d-flex">
                                 <button
@@ -42,6 +42,8 @@
                                         <tr>
                                             <th scope="col" class="col">Nom</th>
                                             <th scope="col">Pourcentage</th>
+                                            <th scope="col">Couleur</th>
+                                            <th scope="col" data-orderable="false"></th>
                                             <th scope="col" class="text-end col-2" data-orderable="false">Actions</th>
                                         </tr>
                                         </thead>
@@ -50,6 +52,14 @@
                                             <tr>
                                                 <td>{{ fillRate.name }}</td>
                                                 <td>{{ fillRate.pourcentage }}</td>
+                                                <td>
+                                                    <div class="rounded" style="background-color: {{ fillRate.color }}; height: 20px; width: 50px;"></div>
+                                                </td>
+                                                <td>
+                                                    <div class="progress" style="height: 15px;">
+                                                        <div class="progress-bar" role="progressbar" style="width: {{ fillRate.pourcentage }}%; background-color: {{ fillRate.color }};" aria-valuenow="{{ fillRate.pourcentage }}" aria-valuemin="0" aria-valuemax="100">{{ fillRate.pourcentage }}%</div>
+                                                    </div>
+                                                </td>
                                                 <td class="text-end">
                                                     <button
                                                             class="btn btn-sm btn-warning"
