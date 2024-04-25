@@ -36,41 +36,44 @@
                                     </span>
                                 </div>
                             {% else %}
-                                <table class="table w-100" id="ticketTable">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col" class="col">Nom</th>
-                                        <th scope="col">Valeur</th>
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for fillRate in fillRates %}
+                                <div class="table-responsive">
+                                    <table class="table w-100" id="ticketTable">
+                                        <thead>
                                         <tr>
-                                            <td>{{ fillRate.name }}</td>
-                                            <td>{{ fillRate.pourcentage }}</td>
-                                            <td>
-                                                <button
-                                                        class="btn btn-warning"
-                                                        data-modal-toggle="form"
-                                                        data-modal-title="Modifier le taux de remplissage"
-                                                        data-modal-href="#"
-                                                >
-                                                    Modifier
-                                                </button>
-                                                <button
-                                                        class="btn btn-danger"
-                                                        data-modal-toggle="form"
-                                                        data-modal-title="Supprimer le taux de remplissage"
-                                                        data-modal-href="#"
-                                                >
-                                                    Supprimer
-                                                </button>
-                                            </td>
+                                            <th scope="col" class="col">Nom</th>
+                                            <th scope="col">Pourcentage</th>
+                                            <th scope="col" class="text-end col-2" data-orderable="false">Actions</th>
                                         </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                        {% for fillRate in fillRates %}
+                                            <tr>
+                                                <td>{{ fillRate.name }}</td>
+                                                <td>{{ fillRate.pourcentage }}</td>
+                                                <td class="text-end">
+                                                    <button
+                                                            class="btn btn-warning"
+                                                            data-modal-toggle="form"
+                                                            data-modal-title="Modifier le taux de remplissage"
+                                                            data-modal-href="#"
+                                                    >
+                                                        Modifier
+                                                    </button>
+                                                    <button
+                                                            class="btn btn-danger"
+                                                            data-modal-toggle="form"
+                                                            data-modal-title="Supprimer le taux de remplissage"
+                                                            data-modal-href="#"
+                                                    >
+                                                        Supprimer
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
                             {% endif %}
 
                         </div>
@@ -92,7 +95,12 @@
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json'
             },
-            autoWidth: true
+            autoWidth: true,
+            responsive: {
+                details: {
+                    type: 'column'
+                }
+            },
         })
     </script>
 

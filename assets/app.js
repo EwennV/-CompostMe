@@ -43,8 +43,6 @@ var toastList = toastElList.map(function (toastEl) {
     return new Toast(toastEl)
 })
 
-console.log(toastElList)
-
 toastList.forEach(toast => {
     toast.show();
 })
