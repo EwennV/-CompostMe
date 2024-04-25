@@ -52,15 +52,15 @@
                                                 <td>{{ fillRate.pourcentage }}</td>
                                                 <td class="text-end">
                                                     <button
-                                                            class="btn btn-warning"
+                                                            class="btn btn-sm btn-warning"
                                                             data-modal-toggle="form"
                                                             data-modal-title="Modifier le taux de remplissage"
-                                                            data-modal-href="#"
+                                                            data-modal-href="{{ path('app_admin_panel_fillrate_edit', {'fill_rate_id' : fillRate.id}) }}"
                                                     >
                                                         Modifier
                                                     </button>
                                                     <button
-                                                            class="btn btn-danger"
+                                                            class="btn btn-sm btn-danger"
                                                             data-modal-toggle="form"
                                                             data-modal-title="Supprimer le taux de remplissage"
                                                             data-modal-href="#"

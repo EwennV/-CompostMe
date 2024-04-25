@@ -25,7 +25,6 @@ class FillRateTypeType extends AbstractType
             ->add('color', ColorType::class, [
                 'label' => 'Couleur',
                 'attr' => [
-                    'value' => '#0a9044',
                     'style' => 'width: 100px;'
                 ]
             ])

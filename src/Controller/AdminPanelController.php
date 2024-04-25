@@ -9,6 +9,7 @@ use App\Repository\FillRateTypeRepository;
 use App\Repository\TicketRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\This;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -75,6 +76,34 @@ class AdminPanelController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Taux de remplissage ajouté avec succès !');
+
+            return $this->redirectToRoute('app_admin_panel_settings');
+        }
+
+        return $this->render('components/unitedForm.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/panel/fillrate/edit/{fill_rate_id}', name: 'app_admin_panel_fillrate_edit')]
+    public function editFillRateType(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        #[MapEntity(mapping: ['fill_rate_id' => 'id'])] FillRateType $fillRateType
+    )
+    {
+        $form = $this->createForm(FillRateTypeType::class, $fillRateType, [
+            'action' => $this->generateUrl('app_admin_panel_fillrate_edit', ['fill_rate_id' => $fillRateType->getId()]),
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $fillRateType = $form->getData();
+
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Taux de remplissage modifié avec succès !');
 
             return $this->redirectToRoute('app_admin_panel_settings');
         }
