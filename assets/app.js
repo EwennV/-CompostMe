@@ -55,7 +55,6 @@ const bootstrapModal = new Modal(modalElement);
 modalButtonTriggers.forEach((modalButtonTrigger) => {
     modalButtonTrigger.addEventListener('click', async function () {
 
-        console.log(modalElement)
         const modalTitle = modalButtonTrigger.getAttribute('data-modal-title');
         const modalHref = modalButtonTrigger.getAttribute('data-modal-href');
 

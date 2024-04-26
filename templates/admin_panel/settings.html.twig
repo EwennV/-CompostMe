@@ -37,9 +37,10 @@
                                 </div>
                             {% else %}
                                 <div class="table-responsive">
-                                    <table class="table w-100" id="ticketTable">
+                                    <table class="table w-100 nowrap" id="ticketTable">
                                         <thead>
                                         <tr>
+                                            <th></th>
                                             <th scope="col" class="col">Nom</th>
                                             <th scope="col">Pourcentage</th>
                                             <th scope="col">Couleur</th>
@@ -50,6 +51,7 @@
                                         <tbody>
                                         {% for fillRate in fillRates %}
                                             <tr>
+                                                <td></td>
                                                 <td>{{ fillRate.name }}</td>
                                                 <td>{{ fillRate.pourcentage }}</td>
                                                 <td>
@@ -111,6 +113,14 @@
                     type: 'column'
                 }
             },
+            columnDefs: [
+                {
+                    className: 'dtr-control',
+                    orderable: false,
+                    targets: 0
+                }
+            ],
+            order: [2, 'asc']
         })
     </script>
 
