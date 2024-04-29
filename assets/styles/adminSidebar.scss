@@ -15,6 +15,7 @@
 @media (min-width: 992px) {
   #adminSidePanel {
     position: relative;
+    min-height: calc(100vh - 60px);
 
     & .nav-item {
       width: 100%;

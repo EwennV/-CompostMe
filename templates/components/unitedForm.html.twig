@@ -1,0 +1,13 @@
+{% if isDeleteForm is defined and isDeleteForm == true %}
+    {{ form_start(form) }}
+        <span>Êtes-vous sûr de vouloir supprimer cet objet ? Cette action est irréversible et pourrait entraîner la suppression d'autres objets</span>
+        <button type="submit" class="btn btn-danger w-100 mt-4">Supprimer</button>
+    {{ form_end(form) }}
+{% else %}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <button type="submit" class="btn btn-primary w-100">Enregistrer</button>
+
+    {{ form_end(form) }}
+{% endif %}

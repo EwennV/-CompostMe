@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription | Compost &Me{% endblock %}
+
+{% block body %}
+    <div class="container col-11 col-sm-8 col-md-5 col-lg-3 mt-5">
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        {% endfor %}
+        {% for flash_success in app.flashes('success') %}
+            <div class="alert alert-success" role="alert">{{ flash_success }}</div>
+        {% endfor %}
+        {% for flash_info in app.flashes('info') %}
+            <div class="alert alert-info" role="alert">{{ flash_info }}</div>
+        {% endfor %}
+        <div class="shadow p-3 mb-3 bg-body rounded">
+            <h1 class="text-center">Inscription</h1>
+            {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.firstname) }}
+            {{ form_row(registrationForm.lastname) }}
+            {{ form_row(registrationForm.username) }}
+            {{ form_row(registrationForm.email) }}
+            {{ form_row(registrationForm.plainPassword, {
+                label: 'Mot de passe'
+            }) }}
+
+            <button class="btn btn-primary w-100 btn-loader" type="submit">
+                S'inscrire
+            </button>
+            {{ form_end(registrationForm) }}
+        </div>
+
+    </div>
+{% endblock %}
+
+
+
+{#{% extends 'base.html.twig' %}#}
+
+{#{% block title %}Register{% endblock %}#}
+
+{#{% block body %}#}
+{#    {% for flash_error in app.flashes('verify_email_error') %}#}
+{#        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>#}
+{#    {% endfor %}#}
+
+{#    <h1>Register</h1>#}
+
+{#    {{ form_errors(registrationForm) }}#}
+
+{#    {{ form_start(registrationForm) }}#}
+{#    {{ form_row(registrationForm.email) }}#}
+{#    {{ form_row(registrationForm.plainPassword, {#}
+{#        label: 'Password'#}
+{#    }) }}#}
+{#    {{ form_row(registrationForm.agreeTerms) }}#}
+
+{#    <button type="submit" class="btn">Register</button>#}
+{#    {{ form_end(registrationForm) }}#}
+{#{% endblock %}#}

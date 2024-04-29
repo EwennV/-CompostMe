@@ -12,6 +12,8 @@ $white: #FFFAFB;
 .btn-primary {
     --bs-btn-color: #{ $white };
     --bs-btn-hover-color: #{ $white };
+    --bs-btn-active-color: #{ $white };
+    --bs-btn-disabled-color: #{ $white };
 }
 
 .btn-danger {
@@ -45,4 +47,14 @@ a {
 table td, th {
     white-space: nowrap;
     vertical-align: middle;
+}
+
+.loading {
+    &::after {
+        content: "";
+        display: block;
+        top: 0;
+        left: 0;
+        background-color: rgba(255, 255, 255, 0.5);
+    }
 }
