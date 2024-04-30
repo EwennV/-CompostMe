@@ -13,6 +13,7 @@ use App\Repository\ComposterRepository;
 use App\Repository\FillRateTypeRepository;
 use App\Repository\OwnerTypeRepository;
 use App\Repository\TicketRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
@@ -316,6 +317,18 @@ class AdminPanelController extends AbstractController
         return $this->render('components/unitedForm.html.twig', [
             'isDeleteForm' => true,
             'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/panel/users', name: 'app_admin_panel_users')]
+    public function listUsers(
+        UserRepository $userRepository
+    ): Response
+    {
+        $users = $userRepository->findAll();
+
+        return $this->render('admin_panel/users/list.html.twig', [
+            'users' => $users,
         ]);
     }
 }
