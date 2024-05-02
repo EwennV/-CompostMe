@@ -38,6 +38,8 @@ a {
 
 .title-underline {
     width: fit-content;
+    margin-bottom: 1.5rem;
+
     &::after {
         content: "";
         width: 100%;

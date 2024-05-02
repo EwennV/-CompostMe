@@ -8,6 +8,7 @@ use App\Entity\OwnerType;
 use App\Form\AccessTypeType;
 use App\Form\FillRateTypeType;
 use App\Form\OwnerTypeType;
+use App\Form\UserType;
 use App\Repository\AccessTypeRepository;
 use App\Repository\ComposterRepository;
 use App\Repository\FillRateTypeRepository;
@@ -15,18 +16,25 @@ use App\Repository\OwnerTypeRepository;
 use App\Repository\TicketRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\This;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin')]
 class AdminPanelController extends AbstractController
 {
+    private UserPasswordHasherInterface $passwordHasher;
+
+    public function __construct(
+        UserPasswordHasherInterface $passwordHasher,
+    )
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
+
     #[Route('/panel', name: 'app_admin_panel')]
     public function index(TicketRepository $ticketRepository, ComposterRepository $composterRepository): Response
     {
@@ -329,6 +337,41 @@ class AdminPanelController extends AbstractController
 
         return $this->render('admin_panel/users/list.html.twig', [
             'users' => $users,
+        ]);
+    }
+
+    #[Route('/panel/users/add', name: 'app_admin_panel_users_add')]
+    public function addUser(
+        Request $request,
+        EntityManagerInterface $entityManager,
+    ): Response
+    {
+        $form = $this->createForm(UserType::class, null, [
+            'action' => $this->generateUrl('app_admin_panel_users_add'),
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $user = $form->getData();
+
+            $plainPassword = $user->getPassword();
+
+            $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
+
+            $user->setPassword($hashedPassword);
+            $user->setVerified(true);
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Utilisateur créé avec succès !');
+
+            return $this->redirectToRoute('app_admin_panel_users');
+        }
+
+        return $this->render('components/unitedForm.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }
