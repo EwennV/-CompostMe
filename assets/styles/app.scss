@@ -42,6 +42,13 @@ a {
     }
 }
 
+.collapsing {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    transition: height 0.35s ease;
+  }  
+
 table td, th {
     white-space: nowrap;
     vertical-align: middle;

@@ -4,8 +4,8 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="{{ asset('img/compost_me.ico') }}">
-        {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
+        {% block stylesheets %}
         {% endblock %}
 
         {% block javascripts %}
