@@ -44,6 +44,15 @@ class UserType extends AbstractType
                 'multiple' => true
             ])
         ;
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+           $form = $event->getForm();
+           $user = $event->getData();
+
+           if (null !== $user) {
+               $form->remove('password');
+           }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

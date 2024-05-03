@@ -39,7 +39,12 @@
                             <td>{{ user.lastname }}</td>
                             <td>{{ user.firstname }}</td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-primary">Voir</a>
+                                <a
+                                    class="btn btn-sm btn-warning"
+                                    data-modal-toggle="form"
+                                    data-modal-title="Modifier l'utilisateur"
+                                    data-modal-href="{{ path('app_admin_panel_users_edit', {'user_id': user.id}) }}"
+                                >Modifier</a>
                                 <a href="#" class="btn btn-sm btn-danger">Supprimer</a>
                             </td>
                         </tr>

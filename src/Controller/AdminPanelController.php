@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\AccessType;
 use App\Entity\FillRateType;
 use App\Entity\OwnerType;
+use App\Entity\User;
 use App\Form\AccessTypeType;
 use App\Form\FillRateTypeType;
 use App\Form\OwnerTypeType;
@@ -366,6 +367,32 @@ class AdminPanelController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Utilisateur créé avec succès !');
+
+            return $this->redirectToRoute('app_admin_panel_users');
+        }
+
+        return $this->render('components/unitedForm.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/panel/users/edit/{user_id}', name: 'app_admin_panel_users_edit')]
+    public function editUser(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        #[MapEntity(mapping: ['user_id' => 'id'])] User $user
+    ): Response
+    {
+        $form = $this->createForm(UserType::class, $user, [
+            'action' => $this->generateUrl('app_admin_panel_users_edit', ['user_id' => $user->getId()]),
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Utilisateur modifié avec succès !');
 
             return $this->redirectToRoute('app_admin_panel_users');
         }
