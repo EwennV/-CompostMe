@@ -3,8 +3,8 @@
 Bloc 3 du CESI
 
 ## Table des matières
-- [Documentation de l'API](/openapi.yaml)
 - [Installation du projet](#installation-du-projet)
+- [Documentation de l'API](https://ewennv.github.io/CompostMe/)
 - [Auteurs](#auteurs)
 
 ## Installation du projet
@@ -55,9 +55,9 @@ Et voilà ! Il ne vous reste plus qu'à lancer votre serveur :
 symfony server:start
 ````
 
-## Documentation
+## Documentation de l'Api
 
-    
+La documentation de l'API est disponible ici : [https://ewennv.github.io/CompostMe/](https://ewennv.github.io/CompostMe/)
 
 ## Auteurs
 [Noé BROGNARD](https://github.com/xenS14)\
