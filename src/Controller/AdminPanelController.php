@@ -5,27 +5,37 @@ namespace App\Controller;
 use App\Entity\AccessType;
 use App\Entity\FillRateType;
 use App\Entity\OwnerType;
+use App\Entity\User;
 use App\Form\AccessTypeType;
 use App\Form\FillRateTypeType;
 use App\Form\OwnerTypeType;
+use App\Form\UserType;
 use App\Repository\AccessTypeRepository;
 use App\Repository\ComposterRepository;
 use App\Repository\FillRateTypeRepository;
 use App\Repository\OwnerTypeRepository;
 use App\Repository\TicketRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\This;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin')]
 class AdminPanelController extends AbstractController
 {
+    private UserPasswordHasherInterface $passwordHasher;
+
+    public function __construct(
+        UserPasswordHasherInterface $passwordHasher,
+    )
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
+
     #[Route('/panel', name: 'app_admin_panel')]
     public function index(TicketRepository $ticketRepository, ComposterRepository $composterRepository): Response
     {
@@ -311,6 +321,107 @@ class AdminPanelController extends AbstractController
             $this->addFlash('success', 'Type de propriétaire supprimé avec succès !');
 
             return $this->redirectToRoute('app_admin_panel_settings');
+        }
+
+        return $this->render('components/unitedForm.html.twig', [
+            'isDeleteForm' => true,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/panel/users', name: 'app_admin_panel_users')]
+    public function listUsers(
+        UserRepository $userRepository
+    ): Response
+    {
+        $users = $userRepository->findAll();
+
+        return $this->render('admin_panel/users/list.html.twig', [
+            'users' => $users,
+        ]);
+    }
+
+    #[Route('/panel/users/add', name: 'app_admin_panel_users_add')]
+    public function addUser(
+        Request $request,
+        EntityManagerInterface $entityManager,
+    ): Response
+    {
+        $form = $this->createForm(UserType::class, null, [
+            'action' => $this->generateUrl('app_admin_panel_users_add'),
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $user = $form->getData();
+
+            $plainPassword = $user->getPassword();
+
+            $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
+
+            $user->setPassword($hashedPassword);
+            $user->setVerified(true);
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Utilisateur créé avec succès !');
+
+            return $this->redirectToRoute('app_admin_panel_users');
+        }
+
+        return $this->render('components/unitedForm.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/panel/users/edit/{user_id}', name: 'app_admin_panel_users_edit')]
+    public function editUser(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        #[MapEntity(mapping: ['user_id' => 'id'])] User $user
+    ): Response
+    {
+        $form = $this->createForm(UserType::class, $user, [
+            'action' => $this->generateUrl('app_admin_panel_users_edit', ['user_id' => $user->getId()]),
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Utilisateur modifié avec succès !');
+
+            return $this->redirectToRoute('app_admin_panel_users');
+        }
+
+        return $this->render('components/unitedForm.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/panel/users/delete/{user_id}', name: 'app_admin_panel_users_delete')]
+    public function deleteUser(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        #[MapEntity(mapping: ['user_id' => 'id'])] User $user
+    ): Response
+    {
+        $form = $this->createFormBuilder()
+            ->setAction($this->generateUrl('app_admin_panel_users_delete', ['user_id' => $user->getId()]))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid() and $user !== $this->getUser()) {
+            $entityManager->remove($user);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Utilisateur supprimé avec succès !');
+
+            return $this->redirectToRoute('app_admin_panel_users');
         }
 
         return $this->render('components/unitedForm.html.twig', [
