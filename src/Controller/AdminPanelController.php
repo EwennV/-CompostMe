@@ -401,4 +401,32 @@ class AdminPanelController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/panel/users/delete/{user_id}', name: 'app_admin_panel_users_delete')]
+    public function deleteUser(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        #[MapEntity(mapping: ['user_id' => 'id'])] User $user
+    ): Response
+    {
+        $form = $this->createFormBuilder()
+            ->setAction($this->generateUrl('app_admin_panel_users_delete', ['user_id' => $user->getId()]))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $entityManager->remove($user);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Utilisateur supprimé avec succès !');
+
+            return $this->redirectToRoute('app_admin_panel_users');
+        }
+
+        return $this->render('components/unitedForm.html.twig', [
+            'isDeleteForm' => true,
+            'form' => $form->createView(),
+        ]);
+    }
 }

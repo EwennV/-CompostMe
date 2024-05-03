@@ -44,8 +44,17 @@
                                     data-modal-toggle="form"
                                     data-modal-title="Modifier l'utilisateur"
                                     data-modal-href="{{ path('app_admin_panel_users_edit', {'user_id': user.id}) }}"
-                                >Modifier</a>
-                                <a href="#" class="btn btn-sm btn-danger">Supprimer</a>
+                                >
+                                    Modifier
+                                </a>
+                                <a
+                                    class="btn btn-sm btn-danger"
+                                    data-modal-toggle="form"
+                                    data-modal-title="Supprimer l'utilisateur"
+                                    data-modal-href="{{ path('app_admin_panel_users_delete', {'user_id': user.id}) }}"
+                                >
+                                    Supprimer
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}
