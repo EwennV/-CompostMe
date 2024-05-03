@@ -415,7 +415,7 @@ class AdminPanelController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() and $form->isValid()) {
+        if ($form->isSubmitted() and $form->isValid() and $user !== $this->getUser()) {
             $entityManager->remove($user);
             $entityManager->flush();
 
