@@ -27,7 +27,7 @@ class TicketType extends AbstractType
             ])
             ->add('composter', EntityType::class, [
                 'class' => Composter::class,
-                'choice_label' => 'id',
+                'choice_label' => 'contact',
                 'label' => 'Composteur concerné',
                 'help' => 'Selectionnez le composteur concerné sur la carte ci-dessous'
             ]);
