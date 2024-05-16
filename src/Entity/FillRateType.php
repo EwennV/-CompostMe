@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[GetCollection]
 #[Post(security: "is_granted('ROLE_ADMIN')")]
 #[Get]
+#[Post(security: "is_granted('ROLE_ADMIN')")]
 class FillRateType
 {
     #[ORM\Id]
@@ -30,7 +31,7 @@ class FillRateType
     #[ORM\Column(length: 16)]
     private ?string $color = null;
 
-    #[ORM\OneToMany(targetEntity: Composter::class, mappedBy: 'FillRate')]
+    #[ORM\OneToMany(targetEntity: Composter::class, mappedBy: 'fillRate')]
     private Collection $composters;
 
     public function __construct()

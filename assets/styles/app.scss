@@ -1,6 +1,10 @@
-body {
-    background-color: lightgray;
-}
+
+
+$primary: #0A9044;
+$secondary: #70BE46;
+$dark: #131515;
+$white: #FFFAFB;
+$body-bg: #F5F5F5;
 
 $primary: #0A9044;
 $secondary: #70BE46;
@@ -12,12 +16,22 @@ $white: #FFFAFB;
 .btn-primary {
     --bs-btn-color: #{ $white };
     --bs-btn-hover-color: #{ $white };
+body {
+    background-color: #{ $light };
+}
+
+.btn-primary {
+    --bs-btn-color: #{ $white };
+    --bs-btn-hover-color: #{ $white };
+    --bs-btn-active-color: #{ $white };
+    --bs-btn-disabled-color: #{ $white };
 }
 
 .btn-danger {
     --bs-btn-color: #{ $white };
     --bs-btn-hover-color: #{ $white };
 }
+
 a {
     text-decoration: none;
     color: $primary;
@@ -32,6 +46,8 @@ a {
 
 .title-underline {
     width: fit-content;
+    margin-bottom: 1.5rem;
+
     &::after {
         content: "";
         width: 100%;
@@ -52,4 +68,37 @@ a {
 table td, th {
     white-space: nowrap;
     vertical-align: middle;
+}
+table td, th {
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.loading {
+    &::after {
+        content: "";
+        display: block;
+        top: 0;
+        left: 0;
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+}
+
+.navbar-nav {
+    & .nav-item {
+
+        &::after {
+            content: "";
+            display: block;
+            width: 0;
+            background-color: $primary;
+            transition: width 0.3s;
+            border-bottom: 2px solid $primary;
+        }
+
+        &:hover::after {
+            width: 100%;
+        }
+    }
+}
 }

@@ -1,0 +1,271 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paramètres - Panel administrateur | Compost &Me{% endblock %}
+
+{% block body %}
+
+<div class="d-flex d-inline-flex h-100 w-100">
+    {% include 'admin_panel/side_panel.html.twig' %}
+    <div class="container-fluid m-2 mb-5 m-lg-4">
+        <h1 class="title-underline">Paramètres</h1>
+        <div class="d-flex w-100 gap-4 flex-wrap mt-4">
+            <div class="accordion col-12 ">
+                <div class="accordion-item col-12 col-lg shadow border-0">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#fillRateSettingsSection">
+                            Taux de remplissage
+                        </button>
+                    </h2>
+                    <div id="fillRateSettingsSection" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <div class="d-flex">
+                                <button
+                                        class="btn btn-primary ms-auto"
+                                        data-modal-toggle="form"
+                                        data-modal-title="Ajouter un taux de remplissage"
+                                        data-modal-href="{{ path('app_admin_panel_fillrate_add') }}"
+                                >
+                                    Ajouter
+                                </button>
+                            </div>
+                            {% if fillRates|length < 1 %}
+                                <div class="w-100 text-center text-muted pb-3 d-flex flex-column">
+                                    <img src="{{ asset('img/taken.svg') }}" alt="Aucun résultat" height="100px" class="m-2">
+                                    <span >
+                                        Aucun taux de remplissage.
+                                    </span>
+                                </div>
+                            {% else %}
+                                <div class="table-responsive">
+                                    <table class="nowrap display" id="ticketTable" style="width: 100%;">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" class="col">Nom</th>
+                                            <th scope="col" class="text-start">Pourcentage</th>
+                                            <th scope="col" data-orderable="false">Couleur</th>
+                                            <th scope="col" data-orderable="false" style="min-width: 150px;"></th>
+                                            <th scope="col" class="text-end col-2" data-orderable="false">Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for fillRate in fillRates %}
+                                            <tr>
+                                                <td>{{ fillRate.name }}</td>
+                                                <td class="text-start">{{ fillRate.pourcentage }}</td>
+                                                <td>
+                                                    <div class="d-flex flex-row">
+                                                        <div class="rounded" style="background-color: {{ fillRate.color }}; height: 20px; width: 50px;"></div>
+                                                        <div class="ms-2">{{ fillRate.color }}</div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="progress" style="height: 15px;">
+                                                        <div class="progress-bar" role="progressbar" style="width: {{ fillRate.pourcentage }}%; background-color: {{ fillRate.color }};" aria-valuenow="{{ fillRate.pourcentage }}" aria-valuemin="0" aria-valuemax="100">{{ fillRate.pourcentage }}%</div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-end">
+                                                    <button
+                                                            class="btn btn-sm btn-warning"
+                                                            data-modal-toggle="form"
+                                                            data-modal-title="Modifier le taux de remplissage"
+                                                            data-modal-href="{{ path('app_admin_panel_fillrate_edit', {'fill_rate_id' : fillRate.id}) }}"
+                                                    >
+                                                        Modifier
+                                                    </button>
+                                                    <button
+                                                            class="btn btn-sm btn-danger"
+                                                            data-modal-toggle="form"
+                                                            data-modal-title="Supprimer le taux de remplissage"
+                                                            data-modal-href="{{ path('app_admin_panel_fillrate_delete', {'fill_rate_id': fillRate.id}) }}"
+                                                    >
+                                                        Supprimer
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion col-12 ">
+                <div class="accordion-item col-12 col-lg shadow border-0">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accessTypeSettingsSection">
+                            Types d'accès
+                        </button>
+                    </h2>
+                    <div id="accessTypeSettingsSection" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <div class="d-flex">
+                                <button
+                                        class="btn btn-primary ms-auto"
+                                        data-modal-toggle="form"
+                                        data-modal-title="Ajouter un type d'accès"
+                                        data-modal-href="{{ path('app_admin_panel_accesstype_add') }}"
+                                >
+                                    Ajouter
+                                </button>
+                            </div>
+                            {% if accessTypes|length < 1 %}
+                                <div class="w-100 text-center text-muted pb-3 d-flex flex-column">
+                                    <img src="{{ asset('img/taken.svg') }}" alt="Aucun résultat" height="100px" class="m-2">
+                                    <span >
+                                        Aucun Type d'accès.
+                                    </span>
+                                </div>
+                            {% else %}
+                                <div class="table-responsive">
+                                    <table class="table w-100 nowrap" id="accessTypeTable">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" class="col">Type d'accès</th>
+                                            <th scope="col" class="text-end" data-orderable="false">Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for accessType in accessTypes %}
+                                            <tr>
+                                                <td>{{ accessType.name }}</td>
+                                                <td class="text-end">
+                                                    <button
+                                                            class="btn btn-sm btn-warning"
+                                                            data-modal-toggle="form"
+                                                            data-modal-title="Modifier le type d'accès"
+                                                            data-modal-href="{{ path('app_admin_panel_accesstype_edit', {'access_type_id' : accessType.id}) }}"
+                                                    >
+                                                        Modifier
+                                                    </button>
+                                                    <button
+                                                            class="btn btn-sm btn-danger"
+                                                            data-modal-toggle="form"
+                                                            data-modal-title="Supprimer le type d'accès"
+                                                            data-modal-href="{{ path('app_admin_panel_accesstype_delete', {'access_type_id': accessType.id}) }}"
+                                                    >
+                                                        Supprimer
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion col-12 ">
+                <div class="accordion-item col-12 col-lg shadow border-0">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ownerTypeSettingsSection">
+                            Types de propriétaires
+                        </button>
+                    </h2>
+                    <div id="ownerTypeSettingsSection" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <div class="d-flex">
+                                <button
+                                        class="btn btn-primary ms-auto"
+                                        data-modal-toggle="form"
+                                        data-modal-title="Ajouter un type de propriétaire"
+                                        data-modal-href="{{ path('app_admin_panel_ownertype_add') }}"
+                                >
+                                    Ajouter
+                                </button>
+                            </div>
+                            {% if ownerTypes|length < 1 %}
+                                <div class="w-100 text-center text-muted pb-3 d-flex flex-column">
+                                    <img src="{{ asset('img/taken.svg') }}" alt="Aucun résultat" height="100px" class="m-2">
+                                    <span >
+                                        Aucun Type de propriétaire.
+                                    </span>
+                                </div>
+                            {% else %}
+                                <div class="table-responsive">
+                                    <table class="table w-100 nowrap" id="accessTypeTable">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" class="col">Type de propriétaire</th>
+                                            <th scope="col" class="text-end" data-orderable="false">Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for ownerType in ownerTypes %}
+                                            <tr>
+                                                <td>{{ ownerType.name }}</td>
+                                                <td class="text-end">
+                                                    <button
+                                                            class="btn btn-sm btn-warning"
+                                                            data-modal-toggle="form"
+                                                            data-modal-title="Modifier le type d'accès"
+                                                            data-modal-href="{{ path('app_admin_panel_ownertype_edit', {'owner_type_id' : ownerType.id}) }}"
+                                                    >
+                                                        Modifier
+                                                    </button>
+                                                    <button
+                                                            class="btn btn-sm btn-danger"
+                                                            data-modal-toggle="form"
+                                                            data-modal-title="Supprimer le type d'accès"
+                                                            data-modal-href="{{ path('app_admin_panel_ownertype_delete', {'owner_type_id': ownerType.id}) }}"
+                                                    >
+                                                        Supprimer
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <link href="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-2.0.3/r-3.0.1/datatables.min.css" rel="stylesheet">
+    <script src="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-2.0.3/r-3.0.1/datatables.min.js"></script>
+    <script>
+        let table = new DataTable('#ticketTable', {
+            paging: false,
+            searching: false,
+            info: false,
+            lengthChange: false,
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json'
+            },
+            responsive: true,
+            order: [1, 'asc'],
+        })
+
+        let accessTypeTable = new DataTable('#accessTypeTable', {
+            paging: false,
+            searching: false,
+            info: false,
+            lengthChange: false,
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json'
+            },
+            autoWidth: true,
+            responsive: {
+                details: {
+                    type: 'column'
+                }
+            }
+        })
+    </script>
+
+{% endblock %}
+

@@ -1,0 +1,21 @@
+<div class="modal fade" id="globalModal" tabindex="-1" aria-labelledby="globalModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="globalModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="p-5" id="modal-loader">
+                    {% include 'components/loader.html.twig' %}
+                </div>
+                <div id="modal-error" class="text-center d-flex flex-column gap-3">
+                    <img height="100px" src="{{ asset('img/error.svg') }}" alt="Image représentant une erreur">
+                    <p class="text-danger">Une erreur est survenue, veuillez réessayer plus tard.</p>
+                </div>
+                <div class="w-100" id="modal-custom-content">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

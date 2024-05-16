@@ -1,14 +1,16 @@
 import './styles/app.scss';
 import './styles/adminSidebar.scss';
+import {Modal, Tooltip, Toast} from "bootstrap";
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-// Assurez-vous que ces URL correspondent à l'emplacement réel des images sur votre serveur
 L.Icon.Default.mergeOptions({
     iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
     iconUrl: require('leaflet/dist/images/marker-icon.png'),
     shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 });
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl))
 
 document.addEventListener('DOMContentLoaded', function() {
     var map = L.map('mapid').setView([51.505, -0.09], 13);
@@ -16,4 +18,72 @@ document.addEventListener('DOMContentLoaded', function() {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
+  });
+
+const buttonsLoader = document.querySelectorAll('.btn-loader');
+
+buttonsLoader.forEach(button => {
+    button.addEventListener('click', (event) => {
+        const parentForm = button.form;
+
+        if (parentForm && parentForm.checkValidity()) {
+            button.innerHTML = `
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Chargement...
+        `;
+            button.classList.toggle("disabled")
+        }
+    });
+});
+
+var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+var toastList = toastElList.map(function (toastEl) {
+    return new Toast(toastEl)
+})
+
+toastList.forEach(toast => {
+    toast.show();
+})
+
+const modalButtonTriggers = document.querySelectorAll('[data-modal-toggle="form"]');
+const modalElement = document.getElementById('globalModal');
+
+const bootstrapModal = new Modal(modalElement);
+
+modalButtonTriggers.forEach((modalButtonTrigger) => {
+    modalButtonTrigger.addEventListener('click', async function () {
+
+        const modalTitle = modalButtonTrigger.getAttribute('data-modal-title');
+        const modalHref = modalButtonTrigger.getAttribute('data-modal-href');
+
+        if (bootstrapModal === null || bootstrapModal === undefined) {
+            return
+        }
+
+        const modalLoader = modalElement.querySelector('#modal-loader');
+        const modalError = modalElement.querySelector('#modal-error');
+        const modalCustomContent = modalElement.querySelector('#modal-custom-content');
+
+        modalLoader.classList.remove('d-none');
+        modalError.classList.add('d-none');
+        modalCustomContent.innerHTML = '';
+
+        if (modalTitle) {
+            modalElement.querySelector('.modal-title').innerHTML = modalTitle;
+        }
+
+        bootstrapModal.show();
+
+        if (modalHref) {
+            const response = await fetch(modalHref)
+
+            modalLoader.classList.add('d-none');
+
+            if (response.status === 200) {
+                modalCustomContent.innerHTML = await response.text();
+            } else {
+                modalError.classList.remove('d-none');
+            }
+        }
+    });
 });

@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\ComposterRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -12,9 +13,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ComposterRepository::class)]
-#[Get]
 #[GetCollection]
-#[Post(security: "is_granted('ROLE_ADMIN')")]
+#[Get]
+#[Post]
+#[Patch(security: 'is_granted("ROLE_ADMIN")')]
 class Composter
 {
     #[ORM\Id]
@@ -42,7 +44,7 @@ class Composter
     #[ORM\ManyToOne(inversedBy: 'composters')]
     private ?FillRateType $fillRate = null;
 
-    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'Composter')]
+    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'composter')]
     private Collection $tickets;
 
     public function __construct()

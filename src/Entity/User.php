@@ -2,17 +2,20 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[Get(security: 'is_granted("ROLE_ADMIN")')]
 #[GetCollection(security: 'is_granted("ROLE_ADMIN")')]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -30,6 +33,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[ApiProperty(readable: false, writable: false)]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
@@ -184,13 +188,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getAttribuedTickets(): Collection
     {
-        return $this->AttributedTickets;
+        return $this->attributedTickets;
     }
 
     public function addAttribuedTicket(Ticket $ticket): static
     {
-        if (!$this->AttributedTickets->contains($ticket)) {
-            $this->AttributedTickets->add($ticket);
+        if (!$this->attributedTickets->contains($ticket)) {
+            $this->attributedTickets->add($ticket);
             $ticket->setResponsableUser($this);
         }
 
@@ -199,11 +203,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeAttribuedTicket(Ticket $ticket): static
     {
-        if ($this->AttributedTickets->removeElement($ticket)) {
+        if ($this->attributedTickets->removeElement($ticket)) {
             if ($ticket->getResponsableUser() === $this) {
                 $ticket->setResponsableUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }
