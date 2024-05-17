@@ -16,6 +16,8 @@ $white: #FFFAFB;
 .btn-primary {
     --bs-btn-color: #{ $white };
     --bs-btn-hover-color: #{ $white };
+}
+
 body {
     background-color: #{ $light };
 }
@@ -100,5 +102,4 @@ table td, th {
             width: 100%;
         }
     }
-}
 }
