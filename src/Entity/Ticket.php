@@ -11,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TicketRepository::class)]
 #[GetCollection]
-#[Post]
 #[Get]
 #[Post]
 #[Patch(security: 'is_granted("ROLE_ADMIN")')]
@@ -44,7 +43,6 @@ class Ticket
     #[ORM\JoinColumn(nullable: false)]
     private ?User $authorUser = null;
 
-    #[ORM\ManyToOne(inversedBy: 'AttributedTickets')]
     #[ORM\ManyToOne(inversedBy: 'attributedTickets')]
     private ?User $responsableUser = null;
 

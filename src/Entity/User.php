@@ -45,14 +45,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'AuthorUser')]
+    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'authorUser')]
     private Collection $tickets;
 
-    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'ResponsableUser')]
-    private Collection $AttributedTickets;
+    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'responsableUser')]
+    private Collection $attributedTickets;
 
-    #[ORM\ManyToOne(targetEntity: UserType::class, inversedBy: 'users')]
-    private UserType $userType;
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
 
     public function getId(): ?int
     {
