@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OwnerTypeRepository::class)]
 #[GetCollection]
+#[Post(security: "is_granted('ROLE_ADMIN')")]
 #[Get]
 #[Post(security: "is_granted('ROLE_ADMIN')")]
 class OwnerType

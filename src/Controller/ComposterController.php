@@ -41,4 +41,31 @@ class ComposterController extends AbstractController
             'composters' => $composters,
         ]);
     }
+
+    #[Route('/composter/filter', name: 'app_composter_filter')]
+    public function filter(Request $request, ComposterRepository $composterRepository): Response
+    {
+        $ownerTypeId = $request->query->get('ownerType', '');
+        $accessTypeId = $request->query->get('accessType', '');
+        $fillRateId = $request->query->get('fillRate', '');
+
+        $composters = $composterRepository->findByFilters($ownerTypeId, $accessTypeId, $fillRateId);
+
+        $compostersData = array_map(function ($composter) {
+            return [
+                'id' => $composter->getId(),
+                'latitude' => $composter->getLatitude(),
+                'longitude' => $composter->getLongitude(),
+                'contact' => $composter->getContact(),
+                'ownerType' => $composter->getOwnerType() ? $composter->getOwnerType()->getName() : null,
+                'accessType' => $composter->getAccessType() ? $composter->getAccessType()->getName() : null,
+                'fillRate' => $composter->getFillRate() ? $composter->getFillRate()->getName() : null,
+            ];
+        }, $composters);
+
+        return $this->json([
+            'composters' => $compostersData,
+        ]);
+    }
+
 }

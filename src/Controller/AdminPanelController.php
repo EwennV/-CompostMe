@@ -2,6 +2,10 @@
 
 namespace App\Controller;
 
+use App\Repository\ComposterRepository;
+use App\Repository\TicketRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use App\Entity\AccessType;
 use App\Entity\FillRateType;
 use App\Entity\OwnerType;
@@ -11,16 +15,12 @@ use App\Form\FillRateTypeType;
 use App\Form\OwnerTypeType;
 use App\Form\UserType;
 use App\Repository\AccessTypeRepository;
-use App\Repository\ComposterRepository;
 use App\Repository\FillRateTypeRepository;
 use App\Repository\OwnerTypeRepository;
-use App\Repository\TicketRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -31,8 +31,7 @@ class AdminPanelController extends AbstractController
 
     public function __construct(
         UserPasswordHasherInterface $passwordHasher,
-    )
-    {
+    ) {
         $this->passwordHasher = $passwordHasher;
     }
 
@@ -67,8 +66,7 @@ class AdminPanelController extends AbstractController
         FillRateTypeRepository $fillRateTypeRepository,
         AccessTypeRepository $accessTypeRepository,
         OwnerTypeRepository $ownerTypeRepository,
-    ): Response
-    {
+    ): Response {
         $fillRates = $fillRateTypeRepository->findAll();
         $accessType = $accessTypeRepository->findAll();
         $ownerTypes = $ownerTypeRepository->findAll();
@@ -84,8 +82,7 @@ class AdminPanelController extends AbstractController
     public function addFillRateType(
         Request $request,
         EntityManagerInterface $entityManager
-    ): mixed
-    {
+    ): mixed {
         $form = $this->createForm(FillRateTypeType::class, null, [
             'action' => $this->generateUrl('app_admin_panel_fillrate_add'),
         ]);
@@ -113,8 +110,7 @@ class AdminPanelController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         #[MapEntity(mapping: ['fill_rate_id' => 'id'])] FillRateType $fillRateType
-    )
-    {
+    ) {
         $form = $this->createForm(FillRateTypeType::class, $fillRateType, [
             'action' => $this->generateUrl('app_admin_panel_fillrate_edit', ['fill_rate_id' => $fillRateType->getId()]),
         ]);
@@ -140,8 +136,7 @@ class AdminPanelController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         #[MapEntity(mapping: ['fill_rate_id' => 'id'])] FillRateType $fillRateType
-    )
-    {
+    ) {
         $form = $this->createFormBuilder()
             ->setAction($this->generateUrl('app_admin_panel_fillrate_delete', ['fill_rate_id' => $fillRateType->getId()]))
             ->getForm();
@@ -167,8 +162,7 @@ class AdminPanelController extends AbstractController
     public function addAccessType(
         Request $request,
         EntityManagerInterface $entityManager
-    ): Response
-    {
+    ): Response {
         $form = $this->createForm(AccessTypeType::class, null, [
             'action' => $this->generateUrl('app_admin_panel_accesstype_add'),
         ]);
@@ -196,8 +190,7 @@ class AdminPanelController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         #[MapEntity(mapping: ['access_type_id' => 'id'])] AccessType $accessType
-    ): Response
-    {
+    ): Response {
         $form = $this->createForm(AccessTypeType::class, $accessType, [
             'action' => $this->generateUrl('app_admin_panel_accesstype_edit', ['access_type_id' => $accessType->getId()]),
         ]);
@@ -224,8 +217,7 @@ class AdminPanelController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         #[MapEntity(mapping: ['access_type_id' => 'id'])] AccessType $accessType
-    ): Response
-    {
+    ): Response {
         $form = $this->createFormBuilder()
             ->setAction($this->generateUrl('app_admin_panel_accesstype_delete', ['access_type_id' => $accessType->getId()]))
             ->getForm();
@@ -251,8 +243,7 @@ class AdminPanelController extends AbstractController
     public function addOwnerType(
         Request $request,
         EntityManagerInterface $entityManager
-    ): Response
-    {
+    ): Response {
         $form = $this->createForm(OwnerTypeType::class, null, [
             'action' => $this->generateUrl('app_admin_panel_ownertype_add'),
         ]);
@@ -280,8 +271,7 @@ class AdminPanelController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         #[MapEntity(mapping: ['owner_type_id' => 'id'])] OwnerType $ownerType
-    ): Response
-    {
+    ): Response {
         $form = $this->createForm(OwnerTypeType::class, $ownerType, [
             'action' => $this->generateUrl('app_admin_panel_ownertype_edit', ['owner_type_id' => $ownerType->getId()]),
         ]);
@@ -306,8 +296,7 @@ class AdminPanelController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         #[MapEntity(mapping: ['owner_type_id' => 'id'])] OwnerType $ownerType
-    ): Response
-    {
+    ): Response {
         $form = $this->createFormBuilder()
             ->setAction($this->generateUrl('app_admin_panel_ownertype_delete', ['owner_type_id' => $ownerType->getId()]))
             ->getForm();
@@ -332,8 +321,7 @@ class AdminPanelController extends AbstractController
     #[Route('/panel/users', name: 'app_admin_panel_users')]
     public function listUsers(
         UserRepository $userRepository
-    ): Response
-    {
+    ): Response {
         $users = $userRepository->findAll();
 
         return $this->render('admin_panel/users/list.html.twig', [
@@ -345,8 +333,7 @@ class AdminPanelController extends AbstractController
     public function addUser(
         Request $request,
         EntityManagerInterface $entityManager,
-    ): Response
-    {
+    ): Response {
         $form = $this->createForm(UserType::class, null, [
             'action' => $this->generateUrl('app_admin_panel_users_add'),
         ]);
@@ -381,8 +368,7 @@ class AdminPanelController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         #[MapEntity(mapping: ['user_id' => 'id'])] User $user
-    ): Response
-    {
+    ): Response {
         $form = $this->createForm(UserType::class, $user, [
             'action' => $this->generateUrl('app_admin_panel_users_edit', ['user_id' => $user->getId()]),
         ]);
@@ -407,8 +393,7 @@ class AdminPanelController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         #[MapEntity(mapping: ['user_id' => 'id'])] User $user
-    ): Response
-    {
+    ): Response {
         $form = $this->createFormBuilder()
             ->setAction($this->generateUrl('app_admin_panel_users_delete', ['user_id' => $user->getId()]))
             ->getForm();

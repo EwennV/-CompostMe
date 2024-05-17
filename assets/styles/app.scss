@@ -6,8 +6,16 @@ $dark: #131515;
 $white: #FFFAFB;
 $body-bg: #F5F5F5;
 
+$primary: #0A9044;
+$secondary: #70BE46;
+$dark: #131515;
+$white: #FFFAFB;
+
 @import 'bootstrap';
 
+.btn-primary {
+    --bs-btn-color: #{ $white };
+    --bs-btn-hover-color: #{ $white };
 body {
     background-color: #{ $light };
 }
@@ -50,6 +58,17 @@ a {
     }
 }
 
+.collapsing {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    transition: height 0.35s ease;
+  }  
+
+table td, th {
+    white-space: nowrap;
+    vertical-align: middle;
+}
 table td, th {
     white-space: nowrap;
     vertical-align: middle;
@@ -81,4 +100,5 @@ table td, th {
             width: 100%;
         }
     }
+}
 }
