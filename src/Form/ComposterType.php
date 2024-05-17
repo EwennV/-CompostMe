@@ -24,14 +24,17 @@ class ComposterType extends AbstractType
             ->add('ownerType', EntityType::class, [
                 'class' => OwnerType::class,
                 'choice_label' => 'name',
+                'label' => "Type de propriétaire"
             ])
             ->add('accessType', EntityType::class, [
                 'class' => AccessType::class,
                 'choice_label' => 'name',
+                'label' => "Type d'accès"
             ])
             ->add('fillRate', EntityType::class, [
                 'class' => FillRateType::class,
                 'choice_label' => 'name',
+                'label' => 'Taux de remplissage'
             ]);
     }
 
