@@ -6,14 +6,14 @@
 <div class="d-flex flex-row" style="height: 100vh;">
     <div class="form container col-11 col-sm-8 col-md-5 col-lg-3 mt-5">
         {{ form_start(form) }}
+        <div style="fs">*Pose un point sur la carte !</div>
         {{ form_row(form.longitude, {'attr': {'id': 'composter_longitude'}}) }}
         {{ form_row(form.latitude, {'attr': {'id': 'composter_latitude'}}) }}
-        <div style="margin-bottom: 1rem"><i style="color: #57E44C">*Pose un point sur la carte !</i></div>
         {{ form_row(form.contact) }}
         {{ form_row(form.ownerType) }}
         {{ form_row(form.accessType) }}
         {{ form_row(form.fillRate) }}
-        <button type="submit" class="btn btn-primary">Ajouter</button>
+        <button type="submit" class="btn btn-primary w-100">Ajouter</button>
         {{ form_end(form) }}
     </div>
     <div id="mapid" style="height: 100%; width: 50%;"></div>
