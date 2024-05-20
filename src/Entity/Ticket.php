@@ -17,6 +17,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 #[Patch(security: 'is_granted("ROLE_ADMIN")')]
 class Ticket
 {
+    public const STATUS_EN_ATTENTE = 'En attente';
+    public const STATUS_EN_COURS = 'En cours';
+    public const STATUS_TERMINE = 'Terminé';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -40,7 +44,7 @@ class Ticket
     private ?\DateTimeImmutable $closedAt = null;
 
     #[ORM\Column(length: 16)]
-    private ?string $status = 'En attente';
+    private ?string $status = self::STATUS_EN_ATTENTE;
 
     #[ORM\ManyToOne(inversedBy: 'tickets')]
     #[ORM\JoinColumn(nullable: false)]
@@ -52,6 +56,10 @@ class Ticket
     #[ORM\ManyToOne(inversedBy: 'tickets')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Composter $composter = null;
+
+    #[ORM\Column(length: 255)]
+    #[Gedmo\Slug(fields: ['title'])]
+    private ?string $slug = null;
 
     public function getId(): ?int
     {
@@ -162,6 +170,18 @@ class Ticket
     public function setComposter(?Composter $composter): static
     {
         $this->composter = $composter;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% set contentTitle %}
+    {% block contentTitle %}{% endblock%}
+{% endset %}
+{% block title %} {{ contentTitle }} - Panel administrateur | Compost &Me{% endblock %}
+
+{% block body %}
+    <div class="d-flex flex-row h-100 w-100" style="min-height: calc(100vh - 64px);">
+        {% include 'admin_panel/side_panel.html.twig' %}
+        <div class="p-2 pb-5 p-lg-4 w-100 d-flex flex-column">
+            <h1 class="title-underline">{{ contentTitle }}</h1>
+            {% block contentBody %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

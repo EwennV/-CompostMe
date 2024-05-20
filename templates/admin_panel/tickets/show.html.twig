@@ -1,0 +1,101 @@
+{% extends 'admin_panel/layout.html.twig' %}
+
+{% block contentTitle %}Ticket{% endblock %}
+
+{% block contentBody %}
+    {% if ticket.status == 'En attente' %}
+        {% set colorStatus = 'danger' %}
+    {% elseif ticket.status == 'En cours' %}
+        {% set colorStatus = 'warning' %}
+    {% else %}
+        {% set colorStatus = 'success' %}
+    {% endif %}
+    <div class="d-flex flex-xl-row gap-3 h-100 flex-column">
+        <div class="col d-flex flex-column">
+            <h3>{{ ticket.title }}</h3>
+            <hr class="mb-5">
+            <p>{{ ticket.description }}</p>
+        </div>
+        <div class="ticket-details col-xl-4 col-12 shadow rounded-2 d-flex flex-column p-4 gap-3">
+            <div>
+                <span class="text-muted">Status</span>
+                <span
+                    class="badge bg-{{ colorStatus }}"
+                >{{ ticket.status }}</span>
+            </div>
+            <div>
+                <span class="text-muted">Auteur</span>
+                <a href="#" class="text-decoration-underline">{{ ticket.authorUser.firstname | capitalize }} {{ ticket.authorUser.lastname | upper }}</a>
+            </div>
+            <div>
+                <span class="text-muted">Responsable</span>
+                <span>
+                    {% if ticket.responsableUser %}
+                        {{ ticket.responsableUser.firstname | capitalize }} {{ ticket.responsableUser.lastname | upper }}
+                    {% else %}
+                        --
+                    {% endif %}
+                </span>
+            </div>
+            <div>
+                <span class="text-muted">Date de création</span>
+                <span>{{ ticket.createdAt | format_datetime(locale='fr', pattern='dd MMMM YYYY H:mm') }}</span>
+            </div>
+            <div>
+                <span class="text-muted">Date de mise à jour</span>
+                <span>{{ ticket.updatedAt | format_datetime(locale='fr', pattern='dd MMMM YYYY H:mm') }}</span>
+            </div>
+            <div>
+                <span class="text-muted">Composteur concerné</span>
+                <span>{{ ticket.composter.contact }}</span>
+            </div>
+            <div id="composter-map" class="h-100 w-100" style="min-height: 200px;"></div>
+            <a class="btn btn-sm btn-primary mt-3"
+               data-modal-toggle="form"
+               data-modal-title="Marquer le ticket comme terminé"
+               data-modal-href="{{ path('app_ticket_close', {'slug': ticket.slug }) }}"
+            >
+                Marquer comme terminé
+            </a>
+        </div>
+    </div>
+
+    <style>
+        .ticket-details div {
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+        }
+    </style>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <script>
+        const map = L.map('composter-map').setView([{{ ticket.composter.latitude }}, {{ ticket.composter.longitude }}], 17);
+
+        const greenIcon = new L.Icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [
+                25, 41
+            ],
+            iconAnchor: [
+                12, 41
+            ],
+            popupAnchor: [
+                1, -34
+            ],
+            shadowSize: [41, 41]
+        });
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        L.marker([{{ ticket.composter.latitude }}, {{ ticket.composter.longitude }}], {icon: greenIcon})
+            .addTo(map)
+            .bindPopup("<b>Composteur :</b> {{ ticket.composter.contact }}")
+
+
+
+    </script>
+{% endblock %}
