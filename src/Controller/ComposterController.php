@@ -68,4 +68,24 @@ class ComposterController extends AbstractController
         ]);
     }
 
+    #[Route('/composter/edit/{id}', name: 'app_composter_edit')]
+    public function edit(ComposterRepository $composterRepository, int $id): Response
+    {
+        $composter = $composterRepository->find($id);
+        $ownerTypes = $composterRepository->getOwnerTypes();
+        $accessTypes = $composterRepository->getAccessTypes();
+
+        if (!$composter) {
+            return $this->json(['message' => 'Composteur not found'], 404);
+        }
+
+        return $this->render('composter/edit.html.twig', [
+            'composter' => $composter,
+            'ownerTypes' => $ownerTypes,
+            'accessTypes' => $accessTypes,
+        ]);
+    }
+
+
+
 }

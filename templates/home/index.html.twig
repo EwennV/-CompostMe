@@ -14,13 +14,11 @@
 {% endblock %}
 {% block body %}
 	<div>
-		<h1 class="d-flex justify-content-center mb-5">Bienvenue sur Compost & Me !</h1>
+		<h1 class="d-flex justify-content-center mb-5 mt-5">Bienvenue sur</h1><img src="{{ asset('/img/logo.png') }}" alt="Compost &Me logo" height="50">
 	</div>
 	<h3 class="d-flex justify-content-center mb-5">Découvrez la liste des composteurs près de chez vous ci-dessous !</h3>
 	<div class="d-flex justify-content-center mb-5">
-		<button type="button" class="btn btn-primary">
-			<a href="{{ path('app_map') }}" class="nav-link">Découvrir</a>
-		</button>
+		<a href="{{ path('app_map') }}" class="btn btn-primary px-5">Découvrir</a>
 	</div>
 
 	<div class="text-padding">
