@@ -1,86 +1,82 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin_panel/layout.html.twig' %}
 
-{% block title %}Liste des tickets - Panel administrateur | Compost &Me{% endblock %}
+{% block contentTitle %}Liste des composteurs{% endblock %}
 
-{% block body %}
-<div class="d-flex d-inline-flex h-100 w-100">
-    {% include 'admin_panel/side_panel.html.twig' %}
-    <div class="p-2 pb-5 p-lg-4 w-100">
-        <h1 class="title-underline">Liste des composteurs</h1>
-        <div class="table-responsive mt-4">
-            {% if composters|length > 0 %}
-                <table class="table table-striped w-100" id="composterTable">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th scope="col" class="text-start">ID</th>
-                        <th scope="col" data-orderable="false">Longitude</th>
-                        <th scope="col" data-orderable="false">Latitude</th>
-                        <th scope="col">Contact</th>
-                        <th scope="col">Propriétaire</th>
-                        <th scope="col">Accès</th>
-                        <th scope="col" class="text-start">Taux de remplissage</th>
-                        <th scope="col" data-orderable="false">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for composter in composters %}
-                        <tr>
-                            <th></th>
-                            <td>{{ composter.id }}</td>
-                            <td>{{ composter.longitude }}</td>
-                            <td>{{ composter.latitude }}</td>
-                            <td>{{ composter.contact }}</td>
-                            <td>{{ composter.ownerType.name }}</td>
-                            <td>{{ composter.accessType.name }}</td>
-                            <td>
-                                <div class="progress" style="height: 15px;">
-                                    <div class="progress-bar" role="progressbar" style="width: {{ composter.fillRate.pourcentage }}%; background-color: {{ composter.fillRate.color }};" aria-valuenow="{{ composter.fillRate.pourcentage }}" aria-valuemin="0" aria-valuemax="100">{{ composter.fillRate.pourcentage }}%</div>
-                                </div>
-                            </td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-primary">Voir</a>
-                                <a href="#" class="btn btn-sm btn-danger">Supprimer</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <div class="text-center">
-                    <img src="{{ asset('img/taken.svg') }}" alt="Aucun résultat" height="200px" class="m-2">
-                    <p class="text-center">Aucun composteur enregistré <a href="{{ path('app_composter_add') }}">Ajouter un composteur maintenant</a></p>
-                </div>
-            {% endif %}
+{% block contentBody %}
+<div class="table-responsive mt-4">
+    {% if composters|length > 0 %}
+        <table class="table table-striped w-100" id="composterTable">
+            <thead>
+            <tr>
+                <th></th>
+                <th scope="col" class="text-start">ID</th>
+                <th scope="col" data-orderable="false">Longitude</th>
+                <th scope="col" data-orderable="false">Latitude</th>
+                <th scope="col">Contact</th>
+                <th scope="col">Propriétaire</th>
+                <th scope="col">Accès</th>
+                <th scope="col" class="text-start">Taux de remplissage</th>
+                <th scope="col" data-orderable="false">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for composter in composters %}
+                <tr>
+                    <th></th>
+                    <td>{{ composter.id }}</td>
+                    <td>{{ composter.longitude }}</td>
+                    <td>{{ composter.latitude }}</td>
+                    <td>{{ composter.contact }}</td>
+                    <td>{{ composter.ownerType.name }}</td>
+                    <td>{{ composter.accessType.name }}</td>
+                    <td>
+                        <div class="progress" style="height: 15px;">
+                            <div class="progress-bar" role="progressbar" style="width: {{ composter.fillRate.pourcentage }}%; background-color: {{ composter.fillRate.color }};" aria-valuenow="{{ composter.fillRate.pourcentage }}" aria-valuemin="0" aria-valuemax="100">{{ composter.fillRate.pourcentage }}%</div>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-sm btn-primary">Voir</a>
+                        <a href="#" class="btn btn-sm btn-danger">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="text-center">
+            <img src="{{ asset('img/taken.svg') }}" alt="Aucun résultat" height="200px" class="m-2">
+            <p class="text-center">Aucun composteur enregistré <a href="{{ path('app_composter_add') }}">Ajouter un composteur maintenant</a></p>
         </div>
-        <link href="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-2.0.3/r-3.0.1/datatables.min.css" rel="stylesheet">
-        <script src="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-2.0.3/r-3.0.1/datatables.min.js"></script>
-        <script>
-            let table = new DataTable('#composterTable', {
-                paging: true,
-                searching: true,
-                info: true,
-                lengthChange: true,
-                lengthMenu: [5, 10, 25, 50, 100],
-                pageLength: 25,
-                language: {
-                    url: 'https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json'
-                },
-                autoWidth: true,
-                responsive: {
-                    details: {
-                        type: 'column'
-                    }
-                },
-                columnDefs: [
-                    {
-                        className: 'dtr-control',
-                        orderable: false,
-                        targets: 0
-                    }
-                ],
-                order: [1, 'asc']
-            })
-        </script>
+    {% endif %}
+</div>
+<link href="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-2.0.3/r-3.0.1/datatables.min.css" rel="stylesheet">
+<script src="https://cdn.datatables.net/v/dt/jq-3.7.0/dt-2.0.3/r-3.0.1/datatables.min.js"></script>
+<script>
+    let table = new DataTable('#composterTable', {
+        paging: true,
+        searching: true,
+        info: true,
+        lengthChange: true,
+        lengthMenu: [5, 10, 25, 50, 100],
+        pageLength: 25,
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json'
+        },
+        autoWidth: true,
+        responsive: {
+            details: {
+                type: 'column'
+            }
+        },
+        columnDefs: [
+            {
+                className: 'dtr-control',
+                orderable: false,
+                targets: 0
+            }
+        ],
+        order: [1, 'asc']
+    })
+</script>
 
-        {% endblock %}
+{% endblock %}

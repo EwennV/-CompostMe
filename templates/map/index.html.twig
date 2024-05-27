@@ -63,7 +63,7 @@
 			<div class="col-md-5">
 				<h3 class="composter-list-title">Liste des Composteurs</h3>
 				<div
-					class="list-group" id="composterList"><!-- Composteurs ajoutés par JavaScript -->
+						class="list-group" id="composterList"><!-- Composteurs ajoutés par JavaScript -->
 				</div>
 			</div>
 
@@ -74,134 +74,134 @@
 	</div>
 	<script>
 		document.addEventListener('DOMContentLoaded', function () {
-var greenIcon = new L.Icon({
-iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-iconSize: [
-25, 41
-],
-iconAnchor: [
-12, 41
-],
-popupAnchor: [
-1, -34
-],
-shadowSize: [41, 41]
-});
+			var greenIcon = new L.Icon({
+				iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+				shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+				iconSize: [
+					25, 41
+				],
+				iconAnchor: [
+					12, 41
+				],
+				popupAnchor: [
+					1, -34
+				],
+				shadowSize: [41, 41]
+			});
 
-var map = L.map('mapid').setView([
-44.864984495119764, -0.5782488698590921
-], 13);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '© OpenStreetMap contributors'}).addTo(map);
+			var map = L.map('mapid').setView([
+				44.864984495119764, -0.5782488698590921
+			], 13);
+			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '© OpenStreetMap contributors'}).addTo(map);
 
 // Appel initial pour charger les données
-updateMap();
+			updateMap();
 
-document.getElementById('applyFilters').addEventListener('click', updateMap);
+			document.getElementById('applyFilters').addEventListener('click', updateMap);
 
-document.getElementById('resetFilters').addEventListener('click', function () {
-document.querySelectorAll('.filter-checkbox').forEach(checkbox => {
-checkbox.checked = false;
-});
-updatesMap();
-});
+			document.getElementById('resetFilters').addEventListener('click', function () {
+				document.querySelectorAll('.filter-checkbox').forEach(checkbox => {
+					checkbox.checked = false;
+				});
+				updatesMap();
+			});
 
-$(document).ready(function () {
-setupCollapseIcons();
-});
+			$(document).ready(function () {
+				setupCollapseIcons();
+			});
 
-function setupCollapseIcons() {
-$('.collapse').on('show.bs.collapse', function () {
-const icon = document.querySelector (`#${
-this.id.replace('Filters', 'Icon')
-}`);
-if (icon) {
-icon.classList.remove('fa-plus');
-icon.classList.add('fa-minus');
-}
-}).on('hide.bs.collapse', function () {
-const icon = document.querySelector (`#${
-this.id.replace('Filters', 'Icon')
-}`);
-if (icon) {
-icon.classList.remove('fa-minus');
-icon.classList.add('fa-plus');
-}
-});
-}
-
-
-function updateMap() {
-const ownerTypeIds = getSelectedFilterIds('ownerType');
-const accessTypeIds = getSelectedFilterIds('accessType');
-const fillRateIds = getSelectedFilterIds('fillRate');
-
-fetch(`/composter/filter?ownerType=${ownerTypeIds}&accessType=${accessTypeIds}&fillRate=${fillRateIds}`).then(response => {
-if (!response.ok) 
-throw new Error('Network response was not ok');
+			function setupCollapseIcons() {
+				$('.collapse').on('show.bs.collapse', function () {
+					const icon = document.querySelector (`#${
+							this.id.replace('Filters', 'Icon')
+					}`);
+					if (icon) {
+						icon.classList.remove('fa-plus');
+						icon.classList.add('fa-minus');
+					}
+				}).on('hide.bs.collapse', function () {
+					const icon = document.querySelector (`#${
+							this.id.replace('Filters', 'Icon')
+					}`);
+					if (icon) {
+						icon.classList.remove('fa-minus');
+						icon.classList.add('fa-plus');
+					}
+				});
+			}
 
 
+			function updateMap() {
+				const ownerTypeIds = getSelectedFilterIds('ownerType');
+				const accessTypeIds = getSelectedFilterIds('accessType');
+				const fillRateIds = getSelectedFilterIds('fillRate');
 
-return response.json();
-}).then(data => {
-map.eachLayer(layer => {
-if (layer instanceof L.Marker) 
-map.removeLayer(layer);
+				fetch(`/composter/filter?ownerType=${ownerTypeIds}&accessType=${accessTypeIds}&fillRate=${fillRateIds}`).then(response => {
+					if (!response.ok)
+						throw new Error('Network response was not ok');
 
 
 
-});
-
-data.composters.forEach(composter => {
-L.marker([
-composter.latitude, composter.longitude
-], {icon: greenIcon}).bindPopup (`<b>Composteur :</b> ${
-composter.contact
-}`).addTo(map);
-});
-updateList(data.composters);
-}).catch(error => console.error('Error:', error));
-}
+					return response.json();
+				}).then(data => {
+					map.eachLayer(layer => {
+						if (layer instanceof L.Marker)
+							map.removeLayer(layer);
 
 
-function updateList(composters) {
-const listContainer = document.getElementById('composterList');
-listContainer.innerHTML = '';
-composters.forEach(composter => {
-const card = document.createElement('div');
-card.className = 'card mb-3';
-card.innerHTML = `
+
+					});
+
+					data.composters.forEach(composter => {
+						L.marker([
+							composter.latitude, composter.longitude
+						], {icon: greenIcon}).bindPopup (`<b>Composteur :</b> ${
+								composter.contact
+						}`).addTo(map);
+					});
+					updateList(data.composters);
+				}).catch(error => console.error('Error:', error));
+			}
+
+
+			function updateList(composters) {
+				const listContainer = document.getElementById('composterList');
+				listContainer.innerHTML = '';
+				composters.forEach(composter => {
+					const card = document.createElement('div');
+					card.className = 'card mb-3';
+					card.innerHTML = `
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">${
-composter.contact
-}</h5>
+							composter.contact
+					}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">Longitude: ${
-composter.longitude
-}, Latitude: ${
-composter.latitude
-}</h6>
+							composter.longitude
+					}, Latitude: ${
+							composter.latitude
+					}</h6>
                     <p class="card-text"><b>Propriété :</b> ${
-composter.ownerType
-}</p>
+							composter.ownerType
+					}</p>
                     <p class="card-text"><b>Accès :</b> ${
-composter.accessType
-}</p>
+							composter.accessType
+					}</p>
                     <div class="mt-auto d-flex justify-content-end">
                         <a href="https://www.google.com/maps/dir/?api=1&destination=${
-composter.latitude
-},${
-composter.longitude
-}" target="_blank" class="btn btn-primary">Itinéraire</a>
+							composter.latitude
+					},${
+							composter.longitude
+					}" target="_blank" class="btn btn-primary">Itinéraire</a>
                     </div>
                 </div>`;
-listContainer.appendChild(card);
-});
-}
+					listContainer.appendChild(card);
+				});
+			}
 
-function getSelectedFilterIds(filterName) {
-return Array.from(document.querySelectorAll (`input[name="${filterName}"]:checked`)).map(checkbox => checkbox.value).join(',');
-}
-});
+			function getSelectedFilterIds(filterName) {
+				return Array.from(document.querySelectorAll (`input[name="${filterName}"]:checked`)).map(checkbox => checkbox.value).join(',');
+			}
+		});
 	</script>
 {% endblock %}
 

@@ -6,8 +6,10 @@
 {% else %}
     {{ form_start(form) }}
         {{ form_widget(form) }}
-
-        <button type="submit" class="btn btn-primary w-100">Enregistrer</button>
+        {% if message %}
+            <p>{{ message }}</p>
+        {% endif %}
+        <button type="submit" class="btn btn-primary w-100">{{ messageButton ?: 'Enregistrer' }}</button>
 
     {{ form_end(form) }}
 {% endif %}

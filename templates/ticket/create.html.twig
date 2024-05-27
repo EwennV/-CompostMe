@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SOS Compost | Compost &Me{% endblock %}
+
+{% block body %}
+    <div class="container-fluid mt-3 col-12 col-md-8 col-lg-5">
+        <h1 class="title-underline">Soumettre un SOS</h1>
+        <p>Soumettre un SOS avec la fonctionnalité SOS Compost permet de signaler un problème, une dégradation ou tout autre information à propos d'un composteur</p>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-primary btn-loader w-100">Soumettre le SOS</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
