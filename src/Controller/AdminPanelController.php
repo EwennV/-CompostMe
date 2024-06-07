@@ -14,6 +14,7 @@ use App\Form\AccessTypeType;
 use App\Form\FillRateTypeType;
 use App\Form\OwnerTypeType;
 use App\Form\UserType;
+use App\Form\ComposterType;
 use App\Repository\AccessTypeRepository;
 use App\Repository\FillRateTypeRepository;
 use App\Repository\OwnerTypeRepository;
@@ -315,6 +316,32 @@ class AdminPanelController extends AbstractController
         return $this->render('components/unitedForm.html.twig', [
             'isDeleteForm' => true,
             'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/panel/composters/create', name: 'app_admin_panel_composter_create')]
+    public function createComposter(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        ComposterRepository $composterRepository
+    ): Response {
+        $form = $this->createForm(ComposterType::class, null, [
+            'action' => $this->generateUrl('app_admin_panel_composter_create'),
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() and $form->isValid()) {
+            $composter = $form->getData();
+            $entityManager->persist($composter);
+            $entityManager->flush();
+            $this->addFlash('success', 'Composteur ajouté avec succès !');
+            return $this->redirectToRoute('app_admin_panel_composter_create');
+        }
+
+        $composters = $composterRepository->findAll();
+
+        return $this->render('/admin_panel/composters/form.html.twig', [
+            'form' => $form->createView(),
+            'composters' => $composters,
         ]);
     }
 

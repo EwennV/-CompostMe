@@ -1,0 +1,84 @@
+{% extends 'admin_panel/layout.html.twig' %}
+
+{% block contentTitle %}Formulaire composteur{% endblock %}
+
+{% block contentBody %}
+<div class="container-fluid d-flex flex-column flex-md-row" style="height: 100vh;">
+    <div class="form container col-12 col-sm-8 col-md-5 col-lg-3 mt-5">
+        {{ form_start(form) }}
+        <div class="mb-3">*Pose un point sur la carte !</div>
+        {{ form_row(form.longitude, {'attr': {'id': 'composter_longitude'}}) }}
+        {{ form_row(form.latitude, {'attr': {'id': 'composter_latitude'}}) }}
+        {{ form_row(form.contact) }}
+        {{ form_row(form.ownerType) }}
+        {{ form_row(form.accessType) }}
+        {{ form_row(form.fillRate) }}
+        <button type="submit" class="btn btn-primary w-100">Ajouter</button>
+        {{ form_end(form) }}
+    </div>
+    <div id="mapid" class="flex-grow-1" style="height: auto; margin: 16px;"></div>
+</div>  
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin=""/>
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+
+<script>
+    if (typeof map === 'undefined') {
+        var map = L.map('mapid').setView([44.864984495119764, -0.5782488698590921], 13);
+
+        const greenIcon = new L.Icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [
+                25, 41
+            ],
+            iconAnchor: [
+                12, 41
+            ],
+            popupAnchor: [
+                1, -34
+            ],
+            shadowSize: [41, 41]
+        });
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        {% for composter in composters %}
+        L.marker([{{ composter.latitude }}, {{ composter.longitude }}], {icon: greenIcon}).addTo(map)
+            .bindPopup("<b>Composteur :</b> {{ composter.contact }}");
+        {% endfor %}
+
+        var marker;
+
+        map.on('click', function(e) {
+            var lat = e.latlng.lat;
+            var lng = e.latlng.lng;
+
+            if (marker) {
+                map.removeLayer(marker);
+            }
+
+            marker = L.marker([lat, lng], {icon: greenIcon}).addTo(map);
+
+            document.getElementById('composter_longitude').value = lng.toFixed(5);
+            document.getElementById('composter_latitude').value = lat.toFixed(5);
+        });
+    }
+</script>
+
+<style>
+    .form {
+        max-width: 100%;
+    }
+    #mapid {
+        min-height: 400px;
+        width: 100%;
+    }
+</style>
+{% endblock %}
