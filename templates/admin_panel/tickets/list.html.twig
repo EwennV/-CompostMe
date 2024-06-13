@@ -37,8 +37,12 @@
                             {% endif %}
                         </td>
                         <td>
-                            <a href="#" class="btn btn-sm btn-primary">Voir</a>
-                            <a href="#" class="btn btn-sm btn-danger">Supprimer</a>
+                            <a href="{{ path('app_ticket_show', {'slug': ticket.slug}) }}" class="btn btn-sm btn-primary">Voir</a>
+                            <a class="btn btn-sm btn-danger"
+                                data-modal-toggle="form"
+                                data-modal-title="Supprimer le ticket"
+                                data-modal-href="{{ path('app_ticket_delete', {'slug': ticket.slug}) }}"
+                            >Supprimer</a>
                         </td>
                     </tr>
                 {% endfor %}

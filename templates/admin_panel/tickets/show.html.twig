@@ -20,8 +20,12 @@
             <div>
                 <span class="text-muted">Status</span>
                 <span
-                    class="badge bg-{{ colorStatus }}"
-                >{{ ticket.status }}</span>
+                    class="badge bg-{{ colorStatus }}" style="cursor: pointer;"
+                ><a
+                    data-modal-toggle="form"
+                    data-modal-title="Status du ticket"
+                    data-modal-href="{{ path('app_ticket_status_change', {'slug': ticket.slug}) }}"
+                    >{{ ticket.status }}<span class="ms-3">▼</span></a></span>
             </div>
             <div>
                 <span class="text-muted">Auteur</span>
@@ -29,12 +33,18 @@
             </div>
             <div>
                 <span class="text-muted">Responsable</span>
-                <span>
-                    {% if ticket.responsableUser %}
-                        {{ ticket.responsableUser.firstname | capitalize }} {{ ticket.responsableUser.lastname | upper }}
-                    {% else %}
-                        --
-                    {% endif %}
+                <span class="border rounded ps-1 pe-1" style="cursor: pointer">
+                    <a
+                        data-modal-toggle="form"
+                        data-modal-title="Responsable du ticket"
+                        data-modal-href="{{ path('app_ticket_responsable_change', {'slug': ticket.slug}) }}"
+                    >
+                        {% if ticket.responsableUser %}
+                        {{ ticket.responsableUser.fullName }}
+                        {% else %}
+                            Aucun responsable
+                        {% endif %}
+                    </a>
                 </span>
             </div>
             <div>
@@ -50,13 +60,15 @@
                 <span>{{ ticket.composter.contact }}</span>
             </div>
             <div id="composter-map" class="h-100 w-100" style="min-height: 200px;"></div>
-            <a class="btn btn-sm btn-primary mt-3"
-               data-modal-toggle="form"
-               data-modal-title="Marquer le ticket comme terminé"
-               data-modal-href="{{ path('app_ticket_close', {'slug': ticket.slug }) }}"
-            >
-                Marquer comme terminé
-            </a>
+            {% if ticket.status != "Terminé" %}
+                <a class="btn btn-sm btn-primary mt-3"
+                   data-modal-toggle="form"
+                   data-modal-title="Marquer le ticket comme terminé"
+                   data-modal-href="{{ path('app_ticket_close', {'slug': ticket.slug }) }}"
+                >
+                    Marquer comme terminé
+                </a>
+            {% endif %}
         </div>
     </div>
 
