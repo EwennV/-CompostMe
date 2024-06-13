@@ -1,45 +1,62 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-	{{ parent() }}
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-	<style>
-		.text-padding {
-			padding-left: 300px;
-			padding-right: 300px;
-		}
-	</style>
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        .text-padding {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        @media (min-width: 768px) {
+            .text-padding {
+                padding-left: 50px;
+                padding-right: 50px;
+            }
+        }
+        @media (min-width: 992px) {
+            .text-padding {
+                padding-left: 100px;
+                padding-right: 100px;
+            }
+        }
+        @media (min-width: 1200px) {
+            .text-padding {
+                padding-left: 150px;
+                padding-right: 150px;
+            }
+        }
+    </style>
 {% endblock stylesheets %}
-{% block title %}Hello HomeController!
-{% endblock %}
-{% block body %}
-	<div>
-		<h1 class="d-flex justify-content-center mb-5">Bienvenue sur Compost & Me !</h1>
-	</div>
-	<h3 class="d-flex justify-content-center mb-5">Découvrez la liste des composteurs près de chez vous ci-dessous !</h3>
-	<div class="d-flex justify-content-center mb-5">
-		<button type="button" class="btn btn-primary">
-			<a href="{{ path('app_map') }}" class="nav-link">Découvrir</a>
-		</button>
-	</div>
 
-	<div class="text-padding">
-		<h3>Comment ça fonctionne ?</h3>
-		<p class="ms-3 mb-5">Cette plateforme interactive vous permet de localiser facilement les sites de compostage près de chez vous. Que vous soyez un citoyen désireux de recycler vos déchets organiques ou une entreprise cherchant à contribuer à des initiatives durables, notre carte détaillée et nos filtres personnalisables vous guident vers les options de compostage les plus accessibles et adaptées à vos besoins.</p>
-		<h3>Quelles sont les fonctionnalitées principales ?</h3>
-		<ul>
-			<li>
-				<h5>Cartographie Interactive</h5>
-				<p>Visualisez sur une carte dynamique l'emplacement précis des composteurs. Chaque marqueur vert indique un site de compostage, et vous pouvez cliquer sur chaque marqueur pour obtenir des détails supplémentaires tels que le contact du responsable, la longitude et la latitude, le type de propriété, et les modalités d'accès.</p>
-			</li>
-			<li>
-				<h5>Filtres Avancés</h5>
-				<p>Affinez votre recherche à l'aide de filtres dédiés pour trouver des composteurs selon le type de propriété, le type d'accès, et le taux de remplissage. Appliquez ces filtres pour une recherche personnalisée qui correspond à vos préférences personnelles ou professionnelles.</p>
-			</li>
-			<li>
-				<h5>Itinéraire sur Mesure</h5>
-				<p>Grâce à un bouton intégré dans chaque description de composteur, obtenez un itinéraire direct depuis votre emplacement actuel jusqu'au site de compostage sélectionné, facilitant ainsi vos déplacements.</p>
-			</li>
-		</ul>
-	</div>
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+    <div>
+        <h1 class="text-center mb-5 mt-5">Bienvenue sur Compost &Me</h1>
+    </div>
+    <h3 class="text-center mb-5">Découvrez la liste des composteurs près de chez vous ci-dessous !</h3>
+    <div class="text-center mb-5">
+        <a href="{{ path('app_map') }}" class="btn btn-primary px-5">Découvrir</a>
+    </div>
+
+    <div class="text-padding">
+        <h3>Comment ça fonctionne ?</h3>
+        <p class="ms-3 mb-5">Cette plateforme interactive vous permet de localiser facilement les sites de compostage près de chez vous. Que vous soyez un citoyen désireux de recycler vos déchets organiques ou une entreprise cherchant à contribuer à des initiatives durables, notre carte détaillée et nos filtres personnalisables vous guident vers les options de compostage les plus accessibles et adaptées à vos besoins.</p>
+        <h3>Quelles sont les fonctionnalitées principales ?</h3>
+        <ul>
+            <li>
+                <h5>Cartographie Interactive</h5>
+                <p>Visualisez sur une carte dynamique l'emplacement précis des composteurs. Chaque marqueur vert indique un site de compostage, et vous pouvez cliquer sur chaque marqueur pour obtenir des détails supplémentaires tels que le contact du responsable, la longitude et la latitude, le type de propriété, et les modalités d'accès.</p>
+            </li>
+            <li>
+                <h5>Filtres Avancés</h5>
+                <p>Affinez votre recherche à l'aide de filtres dédiés pour trouver des composteurs selon le type de propriété, le type d'accès, et le taux de remplissage. Appliquez ces filtres pour une recherche personnalisée qui correspond à vos préférences personnelles ou professionnelles.</p>
+            </li>
+            <li>
+                <h5>Itinéraire sur Mesure</h5>
+                <p>Grâce à un bouton intégré dans chaque description de composteur, obtenez un itinéraire direct depuis votre emplacement actuel jusqu'au site de compostage sélectionné, facilitant ainsi vos déplacements.</p>
+            </li>
+        </ul>
+    </div>
 {% endblock %}
