@@ -23,6 +23,7 @@ security:
         - { path: ^/(login|auth|api|register)$, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: ROLE_ADMIN }
         - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/home, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: ROLE_USER }
 
     firewalls:
